@@ -13,7 +13,6 @@
 #include "DataTable.h"
 #include "DeviceProfile.h"
 
-
 // Variables
 //
 volatile Int64U CONTROL_TimeCounter = 0;
@@ -28,13 +27,11 @@ volatile Int16U CONTROL_Values_1_Counter = 0;
 #pragma DATA_SECTION(CONTROL_BootLoaderRequest, "bl_flag");
 volatile Int16U CONTROL_BootLoaderRequest = 0;
 
-
 // Forward functions
 //
 static void CONTROL_SetDeviceState(DeviceState NewState);
 static void CONTROL_FillWPPartDefault();
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError);
-
 
 // Functions
 //
@@ -47,18 +44,19 @@ void CONTROL_Init(Boolean BadClockDetected)
 	pInt16U EPDatas[EP_COUNT] = {CONTROL_Values_1};
 	// Data-table EPROM service configuration
 	EPROMServiceConfig EPROMService = {NULL, NULL};
-
+	
 	// Init data table
 	DT_Init(EPROMService, BadClockDetected);
+	DT_SaveFirmwareInfo(DEVICE_CAN_ADDRESS, 0);
 	// Fill state variables with default values
 	CONTROL_FillWPPartDefault();
-
+	
 	// Device profile initialization
 	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive);
 	DEVPROFILE_InitEPService(EPIndexes, EPSized, EPCounters, EPDatas);
 	// Reset control values
 	DEVPROFILE_ResetControlSection();
-
+	
 	if(!BadClockDetected)
 	{
 		if(ZwSystem_GetDogAlarmFlag())
@@ -84,7 +82,7 @@ void CONTROL_Idle()
 // ----------------------------------------
 
 #ifdef BOOT_FROM_FLASH
-	#pragma CODE_SECTION(CONTROL_NotifyCANFault, "ramfuncs");
+#pragma CODE_SECTION(CONTROL_NotifyCANFault, "ramfuncs");
 #endif
 void CONTROL_NotifyCANFault(ZwCAN_SysFlags Flag)
 {
@@ -103,12 +101,12 @@ static void CONTROL_SetDeviceState(DeviceState NewState)
 static void CONTROL_FillWPPartDefault()
 {
 	Int16U i;
-
+	
 	// Set states
 	DataTable[REG_DEV_STATE] = DS_None;
 	DataTable[REG_FAULT_REASON] = FAULT_NONE;
 	DataTable[REG_WARNING] = WARNING_NONE;
-
+	
 	// Set results to zero
 	for(i = REG_SENSOR_1; i <= REG_SENSOR_4; ++i)
 		DataTable[i] = 0;
@@ -117,7 +115,7 @@ static void CONTROL_FillWPPartDefault()
 
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 {
-	if (ActionID == ACT_BOOT_LOADER_REQUEST)
+	if(ActionID == ACT_BOOT_LOADER_REQUEST)
 	{
 		CONTROL_BootLoaderRequest = BOOT_LOADER_REQUEST;
 		return TRUE;
