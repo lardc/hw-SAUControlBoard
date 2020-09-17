@@ -38,6 +38,8 @@
 #define REG_CAN_DIAG_TEC			223	// CAN TEC
 #define REG_CAN_DIAG_REC			224	// CAN REC
 //
+#define REG_MME_CODE				250	// MME code number
+//
 // ----------------------------------------
 //
 #define REG_FWINFO_SLAVE_NID		256	// Device CAN slave node ID

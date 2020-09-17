@@ -56,6 +56,7 @@ void CONTROL_Init(Boolean BadClockDetected)
 	DEVPROFILE_InitEPService(EPIndexes, EPSized, EPCounters, EPDatas);
 	// Reset control values
 	DEVPROFILE_ResetControlSection();
+	DataTable[REG_MME_CODE] = MME_CODE;
 	
 	if(!BadClockDetected)
 	{
