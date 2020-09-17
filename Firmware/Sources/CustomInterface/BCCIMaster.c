@@ -9,7 +9,7 @@
 #include "CRC16.h"
 #include "SysConfig.h"
 #include "DeviceProfile.h"
-
+#include "StateMachine.h"
 
 // Macro
 //
@@ -46,7 +46,6 @@
 //
 #define READ_BLOCK_16_BUFFER_SIZE	8000
 
-
 // Forward functions
 //
 static void BCCIM_HandleRead16(pBCCIM_Interface Interface);
@@ -60,7 +59,8 @@ static void BCCIM_HandleCall(pBCCIM_Interface Interface);
 static void BCCIM_HandleReadBlock16(pBCCIM_Interface Interface);
 static void BCCIM_HandleError(pBCCIM_Interface Interface);
 //
-static void BCCIM_SendFrame(pBCCIM_Interface Interface, Int16U Mailbox, pCANMessage Message, Int32U Node, Int16U Command);
+static void BCCIM_SendFrame(pBCCIM_Interface Interface, Int16U Mailbox, pCANMessage Message, Int32U Node,
+		Int16U Command);
 //
 #pragma DATA_SECTION(ReadBlock16Buffer, "data_mem");
 static Int16U ReadBlock16Buffer[READ_BLOCK_16_BUFFER_SIZE + 4];
@@ -68,7 +68,6 @@ static Int16U ReadBlock16BufferCounter = 0;
 //
 static Int16U SavedEndpointRB16;
 static pSCCI_Interface ActiveSCCI;
-
 
 // Functions
 //
@@ -133,7 +132,7 @@ void BCCIM_Process(pBCCIM_Interface Interface)
 void BCCIM_Read16(pBCCIM_Interface Interface, Int16U Node, Int16U Address)
 {
 	CANMessage message;
-
+	
 	message.HIGH.WORD.WORD_0 = Address;
 	BCCIM_SendFrame(Interface, MBOX_R_16, &message, Node, CAN_ID_R_16);
 }
@@ -142,7 +141,7 @@ void BCCIM_Read16(pBCCIM_Interface Interface, Int16U Node, Int16U Address)
 void BCCIM_Read16Double(pBCCIM_Interface Interface, Int16U Node, Int16U Address1, Int16U Address2)
 {
 	CANMessage message;
-
+	
 	message.HIGH.WORD.WORD_0 = Address1;
 	message.HIGH.WORD.WORD_1 = Address2;
 	BCCIM_SendFrame(Interface, MBOX_R_16_2, &message, Node, CAN_ID_R_16_2);
@@ -152,7 +151,7 @@ void BCCIM_Read16Double(pBCCIM_Interface Interface, Int16U Node, Int16U Address1
 void BCCIM_Read32(pBCCIM_Interface Interface, Int16U Node, Int16U Address)
 {
 	CANMessage message;
-
+	
 	message.HIGH.WORD.WORD_0 = Address;
 	BCCIM_SendFrame(Interface, MBOX_R_32, &message, Node, CAN_ID_R_32);
 }
@@ -161,7 +160,7 @@ void BCCIM_Read32(pBCCIM_Interface Interface, Int16U Node, Int16U Address)
 void BCCIM_Write16(pBCCIM_Interface Interface, Int16U Node, Int16U Address, Int16U Data)
 {
 	CANMessage message;
-
+	
 	message.HIGH.WORD.WORD_0 = Address;
 	message.HIGH.WORD.WORD_1 = Data;
 	BCCIM_SendFrame(Interface, MBOX_W_16, &message, Node, CAN_ID_W_16);
@@ -171,7 +170,7 @@ void BCCIM_Write16(pBCCIM_Interface Interface, Int16U Node, Int16U Address, Int1
 void BCCIM_WriteBlock16(pBCCIM_Interface Interface, Int16U Node, Int16U Endpoint, pInt16U Data, Int16U DataLength)
 {
 	CANMessage message;
-
+	
 	message.HIGH.WORD.WORD_0 = (Endpoint << 8) | DataLength;
 	message.HIGH.WORD.WORD_1 = *Data;
 	message.LOW.WORD.WORD_2 = *(Data + 1);
@@ -180,10 +179,11 @@ void BCCIM_WriteBlock16(pBCCIM_Interface Interface, Int16U Node, Int16U Endpoint
 }
 // ----------------------------------------
 
-void BCCIM_Write16Double(pBCCIM_Interface Interface, Int16U Node, Int16U Address1, Int16U Data1, Int16U Address2, Int16U Data2)
+void BCCIM_Write16Double(pBCCIM_Interface Interface, Int16U Node, Int16U Address1, Int16U Data1, Int16U Address2,
+		Int16U Data2)
 {
 	CANMessage message;
-
+	
 	message.HIGH.WORD.WORD_0 = Address1;
 	message.HIGH.WORD.WORD_1 = Data1;
 	message.LOW.WORD.WORD_2 = Address2;
@@ -195,7 +195,7 @@ void BCCIM_Write16Double(pBCCIM_Interface Interface, Int16U Node, Int16U Address
 void BCCIM_Write32(pBCCIM_Interface Interface, Int16U Node, Int16U Address, Int32U Data)
 {
 	CANMessage message;
-
+	
 	message.HIGH.WORD.WORD_0 = Address;
 	message.HIGH.WORD.WORD_1 = Data >> 16;
 	message.LOW.WORD.WORD_2 = Data & 0xFFFF;
@@ -206,7 +206,7 @@ void BCCIM_Write32(pBCCIM_Interface Interface, Int16U Node, Int16U Address, Int3
 void BCCIM_Call(pBCCIM_Interface Interface, Int16U Node, Int16U Action)
 {
 	CANMessage message;
-
+	
 	message.HIGH.WORD.WORD_0 = Action;
 	BCCIM_SendFrame(Interface, MBOX_C, &message, Node, CAN_ID_CALL);
 }
@@ -215,13 +215,13 @@ void BCCIM_Call(pBCCIM_Interface Interface, Int16U Node, Int16U Action)
 void BCCIM_ReadBlock16(pBCCIM_Interface Interface, Int16U Node, Int16U Endpoint, Boolean Start)
 {
 	CANMessage message;
-
+	
 	if(Start)
 	{
 		SavedEndpointRB16 = Endpoint;
 		ReadBlock16BufferCounter = 0;
 	}
-
+	
 	message.HIGH.WORD.WORD_0 = Endpoint;
 	BCCIM_SendFrame(Interface, MBOX_RB_16, &message, Node, CAN_ID_RB_16);
 }
@@ -229,14 +229,18 @@ void BCCIM_ReadBlock16(pBCCIM_Interface Interface, Int16U Node, Int16U Endpoint,
 
 static void BCCIM_HandleRead16(pBCCIM_Interface Interface)
 {
-	Int16U addr, data;
+	Int16U addr, data, node;
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_R_16_A, &CANInput);
 	addr = CANInput.HIGH.WORD.WORD_0;
 	data = CANInput.HIGH.WORD.WORD_1;
+	node = CANInput.MsgID.all >> 10;
+	
+	if(node == SM_TOU_NODE_ID)
+		SM_ProcessTOURegisterRead(addr, data);
 
-	SCCI_AnswerRead16(ActiveSCCI, CANInput.MsgID.all >> 10, addr, data);
+	SCCI_AnswerRead16(ActiveSCCI, node, addr, data);
 }
 // ----------------------------------------
 
@@ -244,13 +248,13 @@ static void BCCIM_HandleRead16Double(pBCCIM_Interface Interface)
 {
 	Int16U addr1, data1, addr2, data2;
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_R_16_2_A, &CANInput);
 	addr1 = CANInput.HIGH.WORD.WORD_0;
 	data1 = CANInput.HIGH.WORD.WORD_1;
 	addr2 = CANInput.LOW.WORD.WORD_2;
 	data2 = CANInput.LOW.WORD.WORD_3;
-
+	
 	SCCI_AnswerRead16Double(ActiveSCCI, CANInput.MsgID.all >> 10, addr1, data1, addr2, data2);
 }
 // ----------------------------------------
@@ -260,11 +264,11 @@ static void BCCIM_HandleRead32(pBCCIM_Interface Interface)
 	Int16U addr;
 	Int32U data;
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_R_32_A, &CANInput);
 	addr = CANInput.HIGH.WORD.WORD_0;
 	data = ((Int32U)CANInput.HIGH.WORD.WORD_1 << 16) | CANInput.LOW.WORD.WORD_2;
-
+	
 	SCCI_AnswerRead32(ActiveSCCI, CANInput.MsgID.all >> 10, addr, data);
 }
 // ----------------------------------------
@@ -273,10 +277,10 @@ static void BCCIM_HandleWrite16(pBCCIM_Interface Interface)
 {
 	Int16U addr;
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_W_16_A, &CANInput);
 	addr = CANInput.HIGH.WORD.WORD_0;
-
+	
 	SCCI_AnswerWrite16(ActiveSCCI, CANInput.MsgID.all >> 10, addr);
 }
 // ----------------------------------------
@@ -285,11 +289,11 @@ static void BCCIM_HandleWrite16Double(pBCCIM_Interface Interface)
 {
 	Int16U addr1, addr2;
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_W_16_2_A, &CANInput);
 	addr1 = CANInput.HIGH.WORD.WORD_0;
 	addr2 = CANInput.HIGH.WORD.WORD_1;
-
+	
 	SCCI_AnswerWrite16Double(ActiveSCCI, CANInput.MsgID.all >> 10, addr1, addr2);
 }
 // ----------------------------------------
@@ -298,13 +302,13 @@ static void BCCIM_HandleWriteBlock16(pBCCIM_Interface Interface)
 {
 	Int16U Data[4];
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_WB_16_A, &CANInput);
 	Data[0] = CANInput.HIGH.WORD.WORD_0;
 	Data[1] = CANInput.HIGH.WORD.WORD_1;
 	Data[2] = CANInput.LOW.WORD.WORD_2;
 	Data[3] = CANInput.LOW.WORD.WORD_3;
-
+	
 	SCCI_AnswerWriteBlock16(ActiveSCCI, CANInput.MsgID.all >> 10, &Data[0]);
 }
 // ----------------------------------------
@@ -313,10 +317,10 @@ static void BCCIM_HandleWrite32(pBCCIM_Interface Interface)
 {
 	Int16U addr;
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_W_32_A, &CANInput);
 	addr = CANInput.HIGH.WORD.WORD_0;
-
+	
 	SCCI_AnswerWrite32(ActiveSCCI, CANInput.MsgID.all >> 10, addr);
 }
 // ----------------------------------------
@@ -325,13 +329,13 @@ static void BCCIM_HandleCall(pBCCIM_Interface Interface)
 {
 	Int16U action;
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_C_A, &CANInput);
 	action = CANInput.HIGH.WORD.WORD_0;
-
-	if(action==4)
-		action=5;
-
+	
+	if(action == 4)
+		action = 5;
+	
 	SCCI_AnswerCall(ActiveSCCI, CANInput.MsgID.all >> 10, action);
 }
 // ----------------------------------------
@@ -339,16 +343,16 @@ static void BCCIM_HandleCall(pBCCIM_Interface Interface)
 static void BCCIM_HandleReadBlock16(pBCCIM_Interface Interface)
 {
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_RB_16_A, &CANInput);
-
+	
 	if(ReadBlock16BufferCounter >= READ_BLOCK_16_BUFFER_SIZE)
 	{
 		SCCI_AnswerError(ActiveSCCI, CANInput.MsgID.all >> 10, ERR_TOO_LONG, SavedEndpointRB16);
 		return;
 	}
-
-	switch(CANInput.DLC)
+	
+	switch (CANInput.DLC)
 	{
 		case 8:
 			ReadBlock16Buffer[ReadBlock16BufferCounter + 3] = CANInput.LOW.WORD.WORD_3;
@@ -362,7 +366,8 @@ static void BCCIM_HandleReadBlock16(pBCCIM_Interface Interface)
 			BCCIM_ReadBlock16(&DEVICE_CAN_Interface, CANInput.MsgID.all >> 10, SavedEndpointRB16, FALSE);
 			break;
 		default:
-			SCCI_AnswerReadBlock16Fast(ActiveSCCI, CANInput.MsgID.all >> 10, SavedEndpointRB16, ReadBlock16Buffer, ReadBlock16BufferCounter);
+			SCCI_AnswerReadBlock16Fast(ActiveSCCI, CANInput.MsgID.all >> 10, SavedEndpointRB16, ReadBlock16Buffer,
+					ReadBlock16BufferCounter);
 			break;
 	}
 }
@@ -372,19 +377,20 @@ static void BCCIM_HandleError(pBCCIM_Interface Interface)
 {
 	Int16U code, details;
 	CANMessage CANInput;
-
+	
 	Interface->IOConfig->IO_GetMessage(MBOX_ERR_A, &CANInput);
 	code = CANInput.HIGH.WORD.WORD_0;
 	details = CANInput.HIGH.WORD.WORD_1;
-
+	
 	SCCI_AnswerError(ActiveSCCI, CANInput.MsgID.all >> 10, code, details);
 }
 // ----------------------------------------
 
-static void BCCIM_SendFrame(pBCCIM_Interface Interface, Int16U Mailbox, pCANMessage Message, Int32U Node, Int16U Command)
+static void BCCIM_SendFrame(pBCCIM_Interface Interface, Int16U Mailbox, pCANMessage Message, Int32U Node,
+		Int16U Command)
 {
 	Message->MsgID.all = (Node << 10) | Command;
-
+	
 	Interface->IOConfig->IO_SendMessageEx(Mailbox, Message, TRUE, FALSE);
 }
 
