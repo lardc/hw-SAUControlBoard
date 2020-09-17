@@ -125,5 +125,4 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 	else
 		return FALSE;
 }
-
-// No more.
+// ----------------------------------------

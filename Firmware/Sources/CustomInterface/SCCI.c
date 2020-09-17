@@ -14,7 +14,6 @@
 #include "DataTable.h"
 #include "DeviceObjectDictionary.h"
 
-
 // Macro
 //
 #define START_BYTE				0xDBu
@@ -22,45 +21,43 @@
 #define FUNCTION_SCODE_MASK		(BIT0 | BIT1 | BIT2)
 #define RESPONSE_MASK			BIT7
 
-
 // Constants
 //
 enum DispID
 {
-	DISP_NONE			=	0,
-	DISP_R_16			=	1,
-	DISP_R_32			=	2,
-	DISP_R_16_2			=	3,
-	DISP_W_16			=	4,
-	DISP_W_32			=	5,
-	DISP_W_16_2			=	6,
-	DISP_RB_16			=	7,
-	DISP_RRB_16			=	8,
-	DISP_WB_16			=	9,
-	DISP_C				=	10,
-	DISP_RBF_16			=	11,
-	DISP_RRBF_16		= 	12
+	DISP_NONE = 0,
+	DISP_R_16 = 1,
+	DISP_R_32 = 2,
+	DISP_R_16_2 = 3,
+	DISP_W_16 = 4,
+	DISP_W_32 = 5,
+	DISP_W_16_2 = 6,
+	DISP_RB_16 = 7,
+	DISP_RRB_16 = 8,
+	DISP_WB_16 = 9,
+	DISP_C = 10,
+	DISP_RBF_16 = 11,
+	DISP_RRBF_16 = 12
 };
 //
 enum SCCI_FunctionCodes
 {
-	FUNCTION_WRITE			= 1,
-	FUNCTION_READ			= 2,
-	FUNCTION_WRITE_BLOCK	= 3,
-	FUNCTION_READ_BLOCK		= 4,
-	FUNCTION_CALL			= 5,
-	FUNCTION_ERROR			= 6,
-	FUNCTION_FAST_READ_BLK  = 7
+	FUNCTION_WRITE = 1,
+	FUNCTION_READ = 2,
+	FUNCTION_WRITE_BLOCK = 3,
+	FUNCTION_READ_BLOCK = 4,
+	FUNCTION_CALL = 5,
+	FUNCTION_ERROR = 6,
+	FUNCTION_FAST_READ_BLK = 7
 };
 //
 enum SCCI_SubFunctionCodes
 {
-	SFUNC_16				= 1,
-	SFUNC_32				= 2,
-	SFUNC_16_2				= 3,
-	SFUNC_REP_16			= 3
+	SFUNC_16 = 1,
+	SFUNC_32 = 2,
+	SFUNC_16_2 = 3,
+	SFUNC_REP_16 = 3
 };
-
 
 // Forward functions
 //
@@ -69,7 +66,8 @@ static void SCCI_DispatchBody(pSCCI_Interface Interface, Boolean MaskStateChange
 static void SCCI_SendErrorFrame(pSCCI_Interface Interface, Int16U ErrorCode, Int16U Details);
 static void SCCI_SendErrorFrameEx(pSCCI_Interface Interface, Int16U Node, Int16U ErrorCode, Int16U Details);
 static void SCCI_SendResponseFrame(pSCCI_Interface Interface, Int16U FrameSize);
-static void SCCI_SendResponseFrameEx(pSCCI_Interface Interface, Int16U Node, Int16U Function, Int16U SubFunction, Int16U FrameSize);
+static void SCCI_SendResponseFrameEx(pSCCI_Interface Interface, Int16U Node, Int16U Function, Int16U SubFunction,
+		Int16U FrameSize);
 //
 static void SCCI_HandleRead16(pSCCI_Interface Interface);
 static void SCCI_HandleRead32(pSCCI_Interface Interface);
@@ -82,7 +80,6 @@ static void SCCI_HandleWriteBlock16(pSCCI_Interface Interface);
 static void SCCI_HandleReadBlockFast16(pSCCI_Interface Interface, Boolean Repeat);
 static void SCCI_HandleCall(pSCCI_Interface Interface);
 
-
 // Variables
 //
 static Int16U ZeroBuffer[xCCI_BUFFER_SIZE] = {0};
@@ -90,12 +87,10 @@ static pInt16U SavedDataBufferRBF16 = ZeroBuffer;
 static Int16U SavedDataBufferSizeRBF16 = 0;
 static Boolean SCCIActive = FALSE;
 
-
 // Functions
 //
-void SCCI_Init(pSCCI_Interface Interface, pSCCI_IOConfig IOConfig, pxCCI_ServiceConfig ServiceConfig,
- 			   pInt16U DataTable, Int16U DataTableSize, Int32U MessageTimeoutTicks,
- 			   void *ArgumentForCallback)
+void SCCI_Init(pSCCI_Interface Interface, pSCCI_IOConfig IOConfig, pxCCI_ServiceConfig ServiceConfig, pInt16U DataTable,
+		Int16U DataTableSize, Int32U MessageTimeoutTicks, void *ArgumentForCallback)
 {
 	Int16U i;
 	
@@ -113,13 +108,13 @@ void SCCI_Init(pSCCI_Interface Interface, pSCCI_IOConfig IOConfig, pxCCI_Service
 	{
 		Interface->ProtectionAndEndpoints.ReadEndpoints16[i] = NULL;
 		Interface->ProtectionAndEndpoints.ReadEndpoints32[i] = NULL;
-	} 
+	}
 
 	for(i = 0; i < xCCI_MAX_WRITE_ENDPOINTS; ++i)
 	{
 		Interface->ProtectionAndEndpoints.WriteEndpoints16[i] = NULL;
 		Interface->ProtectionAndEndpoints.WriteEndpoints32[i] = NULL;
-	} 
+	}
 
 	// Save parameters
 	Interface->IOConfig = IOConfig;
@@ -133,7 +128,7 @@ void SCCI_Init(pSCCI_Interface Interface, pSCCI_IOConfig IOConfig, pxCCI_Service
 
 void SCCI_Process(pSCCI_Interface Interface, Int64U CurrentTickCount, Boolean MaskStateChangeOperations)
 {
-	switch(Interface->State)
+	switch (Interface->State)
 	{
 		case SCCI_STATE_WAIT_STARTBYTE:
 			if(Interface->IOConfig->IO_GetBytesToReceive() > 0)
@@ -178,7 +173,8 @@ void SCCI_AnswerRead16(pSCCI_Interface Interface, Int16U Node, Int16U Address, I
 	SCCI_SendResponseFrameEx(Interface, Node, FUNCTION_READ, SFUNC_16, 5);
 }
 
-void SCCI_AnswerRead16Double(pSCCI_Interface Interface, Int16U Node, Int16U Address1, Int16U Value1, Int16U Address2, Int16U Value2)
+void SCCI_AnswerRead16Double(pSCCI_Interface Interface, Int16U Node, Int16U Address1, Int16U Value1, Int16U Address2,
+		Int16U Value2)
 {
 	Interface->MessageBuffer[2] = Address1;
 	Interface->MessageBuffer[3] = Value1;
@@ -269,25 +265,25 @@ static void SCCI_DispatchHeader(pSCCI_Interface Interface)
 	if(((Interface->MessageBuffer[0] >> 8) == START_BYTE))
 	{
 		Int16U fnc = Interface->MessageBuffer[1] >> 8;
-		switch((fnc & FUNCTION_CODE_MASK) >> 3)
+		switch ((fnc & FUNCTION_CODE_MASK) >> 3)
 		{
 			case FUNCTION_WRITE:
-				switch(fnc & FUNCTION_SCODE_MASK)
+				switch (fnc & FUNCTION_SCODE_MASK)
 				{
 					case SFUNC_16:
 						Interface->ExpectedBodyLength = 3;
 						Interface->State = SCCI_STATE_WAIT_BODY;
-						Interface->DispID = DISP_W_16;	
+						Interface->DispID = DISP_W_16;
 						break;
 					case SFUNC_32:
 						Interface->ExpectedBodyLength = 4;
-						Interface->State = SCCI_STATE_WAIT_BODY;	
-						Interface->DispID = DISP_W_32;	
+						Interface->State = SCCI_STATE_WAIT_BODY;
+						Interface->DispID = DISP_W_32;
 						break;
 					case SFUNC_16_2:
 						Interface->ExpectedBodyLength = 5;
-						Interface->State = SCCI_STATE_WAIT_BODY;	
-						Interface->DispID = DISP_W_16_2;	
+						Interface->State = SCCI_STATE_WAIT_BODY;
+						Interface->DispID = DISP_W_16_2;
 						break;
 					default:
 						SCCI_SendErrorFrame(Interface, ERR_INVALID_SFUNCTION, fnc & FUNCTION_SCODE_MASK);
@@ -295,22 +291,22 @@ static void SCCI_DispatchHeader(pSCCI_Interface Interface)
 				}
 				break;
 			case FUNCTION_READ:
-				switch(fnc & FUNCTION_SCODE_MASK)
+				switch (fnc & FUNCTION_SCODE_MASK)
 				{
 					case SFUNC_16:
 						Interface->ExpectedBodyLength = 2;
-						Interface->State = SCCI_STATE_WAIT_BODY;	
-						Interface->DispID = DISP_R_16;	
+						Interface->State = SCCI_STATE_WAIT_BODY;
+						Interface->DispID = DISP_R_16;
 						break;
 					case SFUNC_32:
 						Interface->ExpectedBodyLength = 2;
-						Interface->State = SCCI_STATE_WAIT_BODY;	
-						Interface->DispID = DISP_R_32;	
+						Interface->State = SCCI_STATE_WAIT_BODY;
+						Interface->DispID = DISP_R_32;
 						break;
 					case SFUNC_16_2:
 						Interface->ExpectedBodyLength = 3;
-						Interface->State = SCCI_STATE_WAIT_BODY;	
-						Interface->DispID = DISP_R_16_2;	
+						Interface->State = SCCI_STATE_WAIT_BODY;
+						Interface->DispID = DISP_R_16_2;
 						break;
 					default:
 						SCCI_SendErrorFrame(Interface, ERR_INVALID_SFUNCTION, fnc & FUNCTION_SCODE_MASK);
@@ -318,12 +314,12 @@ static void SCCI_DispatchHeader(pSCCI_Interface Interface)
 				}
 				break;
 			case FUNCTION_WRITE_BLOCK:
-				switch(fnc & FUNCTION_SCODE_MASK)
+				switch (fnc & FUNCTION_SCODE_MASK)
 				{
 					case SFUNC_16:
 						Interface->ExpectedBodyLength = 5;
-						Interface->State = SCCI_STATE_WAIT_BODY;	
-						Interface->DispID = DISP_WB_16;	
+						Interface->State = SCCI_STATE_WAIT_BODY;
+						Interface->DispID = DISP_WB_16;
 						break;
 					case SFUNC_32:
 						SCCI_SendErrorFrame(Interface, ERR_NOT_SUPPORTED, fnc & FUNCTION_SCODE_MASK);
@@ -334,12 +330,12 @@ static void SCCI_DispatchHeader(pSCCI_Interface Interface)
 				}
 				break;
 			case FUNCTION_READ_BLOCK:
-				switch(fnc & FUNCTION_SCODE_MASK)
+				switch (fnc & FUNCTION_SCODE_MASK)
 				{
 					case SFUNC_16:
 						Interface->ExpectedBodyLength = 2;
-						Interface->State = SCCI_STATE_WAIT_BODY;	
-						Interface->DispID = DISP_RB_16;	
+						Interface->State = SCCI_STATE_WAIT_BODY;
+						Interface->DispID = DISP_RB_16;
 						break;
 					case SFUNC_32:
 						SCCI_SendErrorFrame(Interface, ERR_NOT_SUPPORTED, fnc & FUNCTION_SCODE_MASK);
@@ -359,13 +355,13 @@ static void SCCI_DispatchHeader(pSCCI_Interface Interface)
 				{
 					Interface->ExpectedBodyLength = 2;
 					Interface->State = SCCI_STATE_WAIT_BODY;
-					Interface->DispID = DISP_C;	
+					Interface->DispID = DISP_C;
 				}
 				else
 					SCCI_SendErrorFrame(Interface, ERR_INVALID_SFUNCTION, fnc & FUNCTION_SCODE_MASK);
 				break;
 			case FUNCTION_FAST_READ_BLK:
-				switch(fnc & FUNCTION_SCODE_MASK)
+				switch (fnc & FUNCTION_SCODE_MASK)
 				{
 					case SFUNC_16:
 						Interface->ExpectedBodyLength = 2;
@@ -408,12 +404,12 @@ static void SCCI_DispatchBody(pSCCI_Interface Interface, Boolean MaskStateChange
 		return;
 	}
 
-	if (SCCIActive)
+	if(SCCIActive)
 		++DataTable[REG_OVERLAP_COUNT_REQ];
 	else
 		SCCIActive = TRUE;
 
-	switch(Interface->DispID)
+	switch (Interface->DispID)
 	{
 		case DISP_R_16:
 			SCCI_HandleRead16(Interface);
@@ -488,7 +484,6 @@ static void SCCI_HandleRead16Double(pSCCI_Interface Interface)
 	Int16U node = Interface->MessageBuffer[0] & 0xFF;
 	Int16U addr1 = Interface->MessageBuffer[2];
 	Int16U addr2 = Interface->MessageBuffer[3];
-
 
 	if(node == DEVICE_SCCI_ADDRESS)
 	{
@@ -665,7 +660,6 @@ static void SCCI_HandleWrite16Double(pSCCI_Interface Interface)
 			{
 				Interface->DataTableAddress[addr1] = data1;
 				Interface->DataTableAddress[addr2] = data2;
-
 				Interface->MessageBuffer[3] = addr2;
 
 				SCCI_SendResponseFrame(Interface, 5);
@@ -692,7 +686,7 @@ static void SCCI_HandleReadBlock16(pSCCI_Interface Interface, Boolean Repeat)
 		if((epnt < xCCI_MAX_READ_ENDPOINTS) && Interface->ProtectionAndEndpoints.ReadEndpoints16[epnt])
 		{
 			length = Interface->ProtectionAndEndpoints.ReadEndpoints16[epnt](epnt, &src, FALSE, Repeat,
-																			 Interface->ArgForEPCallback, SCCI_BLOCK_MAX_VAL_16_R);
+					Interface->ArgForEPCallback, SCCI_BLOCK_MAX_VAL_16_R);
 			MemZero16(&Interface->MessageBuffer[3], SCCI_BLOCK_MAX_VAL_16_R);
 
 			if(!length || (length > SCCI_BLOCK_MAX_VAL_16_R))
@@ -728,7 +722,7 @@ static void SCCI_HandleWriteBlock16(pSCCI_Interface Interface)
 			if((epnt < xCCI_MAX_WRITE_ENDPOINTS) && Interface->ProtectionAndEndpoints.WriteEndpoints16[epnt])
 			{
 				if(Interface->ProtectionAndEndpoints.WriteEndpoints16[epnt](epnt, &Interface->MessageBuffer[3], FALSE,
-																			length, Interface->ArgForEPCallback))
+						length, Interface->ArgForEPCallback))
 				{
 					Interface->MessageBuffer[2] &= 0xFF00;
 					SCCI_SendResponseFrame(Interface, 4);
@@ -762,7 +756,7 @@ static void SCCI_HandleReadBlockFast16(pSCCI_Interface Interface, Boolean Repeat
 		if((epnt < xCCI_MAX_READ_ENDPOINTS) && Interface->ProtectionAndEndpoints.ReadEndpoints16[epnt])
 		{
 			length = Interface->ProtectionAndEndpoints.ReadEndpoints16[epnt](epnt, &src, TRUE, Repeat,
-																			 Interface->ArgForEPCallback, SCCI_BLOCK_MAX_VAL_16_R);
+					Interface->ArgForEPCallback, SCCI_BLOCK_MAX_VAL_16_R);
 			Interface->MessageBuffer[2] = (epnt << 8) | (SCCI_USE_CRC_IN_STREAM ? 1 : 0);
 
 			if(!length || (length > xCCI_BLOCK_STM_MAX_VAL))
@@ -812,9 +806,7 @@ static void SCCI_HandleCall(pSCCI_Interface Interface)
 			SCCI_SendErrorFrame(Interface, ERR_USER, userError);
 		}
 		else
-		{
 			SCCI_SendResponseFrame(Interface, 4);
-		}
 	}
 	else
 	{
@@ -832,15 +824,16 @@ static void SCCI_SendResponseFrame(pSCCI_Interface Interface, Int16U FrameSize)
 	Interface->MessageBuffer[1] |= RESPONSE_MASK << 8;
 	Interface->MessageBuffer[FrameSize - 1] = CRC16_ComputeCRC(Interface->MessageBuffer, FrameSize - 1);
 
-	if (SCCIActive)
+	if(SCCIActive)
 		SCCIActive = FALSE;
 	else
 		++DataTable[REG_OVERLAP_COUNT_RESP];
-	Interface->IOConfig->IO_SendArray16(Interface->MessageBuffer, FrameSize); 
+	Interface->IOConfig->IO_SendArray16(Interface->MessageBuffer, FrameSize);
 }
 // ----------------------------------------
 
-static void SCCI_SendResponseFrameEx(pSCCI_Interface Interface, Int16U Node, Int16U Function, Int16U SubFunction, Int16U FrameSize)
+static void SCCI_SendResponseFrameEx(pSCCI_Interface Interface, Int16U Node, Int16U Function, Int16U SubFunction,
+		Int16U FrameSize)
 {
 	Interface->State = SCCI_STATE_WAIT_STARTBYTE;
 
@@ -848,7 +841,7 @@ static void SCCI_SendResponseFrameEx(pSCCI_Interface Interface, Int16U Node, Int
 	Interface->MessageBuffer[1] = (RESPONSE_MASK | (Function << 3) | SubFunction) << 8;
 	Interface->MessageBuffer[FrameSize - 1] = CRC16_ComputeCRC(Interface->MessageBuffer, FrameSize - 1);
 
-	if (SCCIActive)
+	if(SCCIActive)
 		SCCIActive = FALSE;
 	else
 		++DataTable[REG_OVERLAP_COUNT_RESP];
@@ -875,5 +868,3 @@ static void SCCI_SendErrorFrameEx(pSCCI_Interface Interface, Int16U Node, Int16U
 	Interface->IOConfig->IO_SendArray16(Interface->MessageBuffer, 5);
 }
 // ----------------------------------------
-
-// No more.

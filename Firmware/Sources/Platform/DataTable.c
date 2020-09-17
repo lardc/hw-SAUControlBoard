@@ -75,5 +75,4 @@ void DT_ResetWRPart(FUNC_SetDefaultValues SetFunc)
 	if(SetFunc)
 		SetFunc();
 }
-
-// No more.
+// ----------------------------------------
