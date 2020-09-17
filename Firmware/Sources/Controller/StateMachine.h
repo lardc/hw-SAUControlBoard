@@ -12,6 +12,8 @@
 
 // Functions
 //
+void SM_Reset();
+
 Boolean SM_IsCUHV2Connected();
 Boolean SM_IsCUHV2SwitchAction(Int16U Command);
 void SM_ProcessCUHV2Command(Int16U Command);

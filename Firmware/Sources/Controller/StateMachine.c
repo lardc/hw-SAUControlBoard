@@ -38,6 +38,13 @@ static Boolean CUHV2Connected = TRUE, TOUConnected = FALSE;
 
 // Functions
 //
+void SM_Reset()
+{
+	CUHV2Connected = TRUE;
+	TOUConnected = FALSE;
+}
+// ----------------------------------------
+
 Boolean SM_IsCUHV2Connected()
 {
 	return CUHV2Connected;

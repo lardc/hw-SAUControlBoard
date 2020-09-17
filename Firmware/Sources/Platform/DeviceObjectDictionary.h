@@ -7,11 +7,7 @@
 
 // REGISTERS
 //
-//
-// ----------------------------------------
-//
-#define ACT_CLR_FAULT				3	// Clear fault (try switch state from FAULT to NONE)
-#define ACT_CLR_WARNING				4	// Clear warning
+#define ACT_RESET_STATE_MACHINE		10	// Reset state machine to default state
 //
 #define ACT_BOOT_LOADER_REQUEST		320	// Request reboot to bootloader
 //

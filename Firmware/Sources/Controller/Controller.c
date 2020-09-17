@@ -12,6 +12,7 @@
 #include "DeviceObjectDictionary.h"
 #include "DataTable.h"
 #include "DeviceProfile.h"
+#include "StateMachine.h"
 
 // Variables
 //
@@ -116,12 +117,20 @@ static void CONTROL_FillWPPartDefault()
 
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 {
-	if(ActionID == ACT_BOOT_LOADER_REQUEST)
+	switch(ActionID)
 	{
-		CONTROL_BootLoaderRequest = BOOT_LOADER_REQUEST;
-		return TRUE;
+		case ACT_RESET_STATE_MACHINE:
+			SM_Reset();
+			break;
+
+		case ACT_BOOT_LOADER_REQUEST:
+			CONTROL_BootLoaderRequest = BOOT_LOADER_REQUEST;
+			break;
+
+		default:
+			return FALSE;
 	}
-	else
-		return FALSE;
+
+	return TRUE;
 }
 // ----------------------------------------
