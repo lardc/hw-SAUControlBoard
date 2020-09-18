@@ -333,9 +333,6 @@ static void BCCIM_HandleCall(pBCCIM_Interface Interface)
 	Interface->IOConfig->IO_GetMessage(MBOX_C_A, &CANInput);
 	action = CANInput.HIGH.WORD.WORD_0;
 	
-	if(action == 4)
-		action = 5;
-	
 	SCCI_AnswerCall(ActiveSCCI, CANInput.MsgID.all >> 10, action);
 }
 // ----------------------------------------
