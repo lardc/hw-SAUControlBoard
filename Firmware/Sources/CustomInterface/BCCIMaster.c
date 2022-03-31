@@ -236,9 +236,11 @@ static void BCCIM_HandleRead16(pBCCIM_Interface Interface)
 	addr = CANInput.HIGH.WORD.WORD_0;
 	data = CANInput.HIGH.WORD.WORD_1;
 	node = CANInput.MsgID.all >> 10;
-	
+
+#ifdef MME_PROTECTED_CALL
 	if(node == SM_TOU_NODE_ID)
 		SM_ProcessTOURegisterRead(addr, data);
+#endif
 
 	SCCI_AnswerRead16(ActiveSCCI, node, addr, data);
 }

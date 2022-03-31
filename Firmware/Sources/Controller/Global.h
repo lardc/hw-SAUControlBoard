@@ -17,7 +17,8 @@
 #define UNLOCK_PWD_3					1
 #define UNLOCK_PWD_4					1
 //
-#define MME_CODE						413
+#define MME_CODE						4
+#undef MME_PROTECTED_CALL
 //
 #define	SCCI_TIMEOUT_TICKS				1000
 #define EP_COUNT						1

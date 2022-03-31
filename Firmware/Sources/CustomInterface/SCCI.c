@@ -13,6 +13,7 @@
 #include "DeviceProfile.h"
 #include "DataTable.h"
 #include "DeviceObjectDictionary.h"
+#include "Global.h"
 
 // Macro
 //
@@ -810,6 +811,7 @@ static void SCCI_HandleCall(pSCCI_Interface Interface)
 	}
 	else
 	{
+#ifdef MME_PROTECTED_CALL
 		if(node == SM_TOU_NODE_ID && SM_IsTOUSwitchAction(action) && SM_IsCUHV2Connected())
 		{
 			SCCI_SendErrorFrameEx(Interface, node, ERR_BLOCKED, action);
@@ -827,6 +829,7 @@ static void SCCI_HandleCall(pSCCI_Interface Interface)
 
 		if(node == SM_TOU_NODE_ID)
 			SM_ProcessTOUCommand(action);
+#endif
 
 		BCCIM_SetActiveSCCI(Interface);
 		BCCIM_Call(&DEVICE_CAN_Interface, node, action);
