@@ -5,41 +5,34 @@
 // Header
 #include "Constraints.h"
 
-// Includes
-#include "DUTLibrary.h"
-#include "MultiplexerDictionary.h"
-#include "CurrentBoardDictionary.h"
-#include "Common.h"
-#include "Logic.h"
-
 // Constants
 //
 const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
-		{NODE_ID_MIN, NODE_ID_MAX, NODE_ID_MIN},									// 0
-		{NODE_ID_MIN, NODE_ID_MAX, NODE_ID_MIN},									// 1
-		{NODE_ID_MIN, NODE_ID_MAX, NODE_ID_MIN},									// 2
-		{NODE_ID_MIN, NODE_ID_MAX, NODE_ID_MIN},									// 3
-		{NODE_ID_MIN, NODE_ID_MAX, NODE_ID_MIN},									// 4
-		{NODE_ID_MIN, NODE_ID_MAX, NODE_ID_MIN},									// 5
-		{NODE_ID_MIN, NODE_ID_MAX, NODE_ID_MIN},									// 6
-		{NODE_ID_MIN, NODE_ID_MAX, NODE_ID_MIN},									// 7
+		{0, 0, 0},																	// 0
+		{0, 0, 0},																	// 1
+		{0, 0, 0},																	// 2
+		{0, 0, 0},																	// 3
+		{0, 0, 0},																	// 4
+		{0, 0, 0},																	// 5
+		{0, 0, 0},																	// 6
+		{0, 0, 0},																	// 7
 		{0, 0, 0},																	// 8
 		{0, 0, 0},																	// 9
-		{NO, YES, NO},																// 10
-		{NO, YES, NO},																// 11
-		{NO, YES, NO},																// 12
-		{NO, YES, NO},																// 13
-		{NO, YES, NO},																// 14
-		{NO, YES, NO},																// 15
-		{NO, YES, NO},																// 16
-		{NO, YES, NO},																// 17
+		{0, 0, 0},																	// 10
+		{0, 0, 0},																	// 11
+		{0, 0, 0},																	// 12
+		{0, 0, 0},																	// 13
+		{0, 0, 0},																	// 14
+		{0, 0, 0},																	// 15
+		{0, 0, 0},																	// 16
+		{0, 0, 0},																	// 17
 		{0, 0, 0},																	// 18
 		{0, 0, 0},																	// 19
-		{TIMEOUT_MIN, TIMEOUT_MAX, TIMEOUT_DEF},									// 20
-		{TIMEOUT_MIN, TIMEOUT_MAX, TIMEOUT_DEF},									// 21
-		{FAN_TIME_MIN, FAN_TIME_MAX, FAN_TIME_DEF},									// 22
-		{FAN_TIME_MIN, FAN_TIME_MAX, FAN_TIME_DEF},									// 23
-		{ALTER_DELAY_MIN, ALTER_DELAY_MAX, ALTER_DELAY_DEF},						// 24
+		{0, 0, 0},																	// 20
+		{0, 0, 0},																	// 21
+		{0, 0, 0},																	// 22
+		{0, 0, 0},																	// 23
+		{0, 0, 0},																	// 24
 		{0, 0, 0},																	// 25
 		{0, 0, 0},																	// 26
 		{0, 0, 0},																	// 27
@@ -146,44 +139,44 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 };
 
 const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START] = {
-		{MT_LeakageCurrent, MT_InhibitVoltage, MT_OnVoltage},						// 128
-		{A1, B1a, A1},																// 129
-		{MXP_Position1, MXP_Position3, MXP_Position1},								// 130
-		{IT_ControlIDC, IT_ControlVAC, IT_ControlIDC},								// 131
-		{0, INT16U_MAX, 0},															// 132
-		{0, INT16U_MAX, 0},															// 133
-		{LT_LeakageDC, LT_LeakageAC, LT_LeakageDC},									// 134
-		{0, INT16U_MAX, 0},															// 135
-		{CB_CurrentTrapeze, CB_CurrentSin, CB_CurrentTrapeze},						// 136
-		{0, INT16U_MAX, 0},															// 137
-		{0, INT16U_MAX, 0},															// 138
-		{0, INT16U_MAX, 0},															// 139
-		{0, INT16U_MAX, 0},															// 140
-		{0, INT16U_MAX, 0},															// 141
-		{0, INT16U_MAX, 0},															// 142
-		{0, INT16U_MAX, 0},															// 143
-		{NO, YES, NO},																// 144
-		{CTRL_PULSE_LENGH_MIN, CTRL_PULSE_LENGH_MAX, CTRL_PULSE_LENGH_DEF},			// 145
-		{CTRL_DELAY_MIN, CTRL_DELAY_MAX, CTRL_DELAY_DEF},							// 146
-		{CALIBRATION_DELAY_MIN, CALIBRATION_DELAY_MAX, CALIBRATION_DELAY_DEF},		// 147
+		{0, 0, 0},																	// 128
+		{0, 0, 0},																	// 129
+		{0, 0, 0},																	// 130
+		{0, 0, 0},																	// 131
+		{0, 0, 0},																	// 132
+		{0, 0, 0},																	// 133
+		{0, 0, 0},																	// 134
+		{0, 0, 0},																	// 135
+		{0, 0, 0},																	// 136
+		{0, 0, 0},																	// 137
+		{0, 0, 0},																	// 138
+		{0, 0, 0},																	// 139
+		{0, 0, 0},																	// 140
+		{0, 0, 0},																	// 141
+		{0, 0, 0},																	// 142
+		{0, 0, 0},																	// 143
+		{0, 0, 0},																	// 144
+		{0, 0, 0},																	// 145
+		{0, 0, 0},																	// 146
+		{0, 0, 0},																	// 147
 		{0, 0, 0},																	// 148
 		{0, 0, 0},																	// 149
-		{0, INT16U_MAX, 0},															// 150
-		{0, INT16U_MAX, 0},															// 151
-		{0, INT16U_MAX, 0},															// 152
-		{0, INT16U_MAX, 0},															// 153
-		{0, INT16U_MAX, 0},															// 154
-		{0, INT16U_MAX, 0},															// 155
-		{0, INT16U_MAX, 0},															// 156
-		{0, INT16U_MAX, 0},															// 157
+		{0, 0, 0},																	// 150
+		{0, 0, 0},																	// 151
+		{0, 0, 0},																	// 152
+		{0, 0, 0},																	// 153
+		{0, 0, 0},																	// 154
+		{0, 0, 0},																	// 155
+		{0, 0, 0},																	// 156
+		{0, 0, 0},																	// 157
 		{0, 0, 0},																	// 158
 		{0, 0, 0},																	// 159
-		{CN_DC1, CN_CB, CN_DC1},													// 160
-		{CT_Current, CT_Voltage, CT_Current},										// 161
-		{0, INT16U_MAX, 0},															// 162
-		{0, INT16U_MAX, 0},															// 163
-		{0, INT16U_MAX, 0},															// 164
-		{0, INT16U_MAX, 0},															// 165
+		{0, 0, 0},																	// 160
+		{0, 0, 0},																	// 161
+		{0, 0, 0},																	// 162
+		{0, 0, 0},																	// 163
+		{0, 0, 0},																	// 164
+		{0, 0, 0},																	// 165
 		{0, 0, 0},																	// 166
 		{0, 0, 0},																	// 167
 		{0, 0, 0},																	// 168
@@ -203,11 +196,11 @@ const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START]
 		{0, 0, 0},																	// 182
 		{0, 0, 0},																	// 183
 		{0, 0, 0},																	// 184
-		{0, INT16U_MAX, 0},															// 185
-		{0, INT16U_MAX, 0},															// 186
-		{0, INT16U_MAX, 0},															// 187
-		{NO, YES, NO},																// 188
-		{NO, YES, NO},																// 189
-		{0, INT16U_MAX, 0},															// 190
+		{0, 0, 0},																	// 185
+		{0, 0, 0},																	// 186
+		{0, 0, 0},																	// 187
+		{0, 0, 0},																	// 188
+		{0, 0, 0},																	// 189
+		{0, 0, 0},																	// 190
 		{0, 0, 0}																	// 191
 };
