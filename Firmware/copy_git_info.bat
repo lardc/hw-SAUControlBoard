@@ -1,2 +1,2 @@
 @echo off
-copy git_info.h ..\Sources\ >NUL
+copy git_info.h ..\Source\ >NUL
