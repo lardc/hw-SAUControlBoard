@@ -24,6 +24,7 @@
 
 // CAN
 #define CAN_BAUDRATE					1000000		// Битрейт CAN
+#define CAN_BRIDGE
 // ----------------------------------------------
 
 #endif // __SYSCONFIG_H
