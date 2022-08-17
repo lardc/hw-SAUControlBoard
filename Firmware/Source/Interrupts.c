@@ -62,13 +62,3 @@ void TIM7_IRQHandler()
 	}
 }
 //-----------------------------------------
-
-void EXTI15_10_IRQHandler()
-{
-	if(EXTI_FlagCheck(EXTI_10))
-	{
-		LL_SetStateExtLineSync2(LL_GetStateIntLineSync2());
-		EXTI_FlagReset(EXTI_10);
-	}
-}
-//-----------------------------------------

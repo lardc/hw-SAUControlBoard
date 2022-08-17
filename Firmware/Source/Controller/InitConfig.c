@@ -4,7 +4,6 @@
 #include "BCCIxParams.h"
 
 // Functions
-//
 Boolean INITCFG_ConfigSystemClock()
 {
 	return RCC_PLL_HSE_Config(QUARTZ_FREQUENCY, PREDIV_4, PLL_14);
@@ -18,17 +17,8 @@ void INITCFG_ConfigIO()
 	RCC_GPIO_Clk_EN(PORTB);
 	
 	// Выходы
-	GPIO_InitPushPullOutput(GPIO_INT_LED);
-	GPIO_InitPushPullOutput(GPIO_EXT_LED);
-	GPIO_InitPushPullOutput(GPIO_INT_SYNC1_OUT);
-	GPIO_InitPushPullOutput(GPIO_INT_SYNC2_OUT);
-	GPIO_InitPushPullOutput(GPIO_EXT_SYNC1_OUT);
-	GPIO_InitPushPullOutput(GPIO_EXT_SYNC2_OUT);
-	GPIO_InitPushPullOutput(GPIO_FAN);
 
 	// Входы
-	GPIO_InitInput(GPIO_INT_SYNC1_IN, NoPull);
-	GPIO_InitInput(GPIO_INT_SYNC2_IN, NoPull);
 
 	// Альтернативные функции
 	GPIO_InitAltFunction(GPIO_ALT_CAN_RX, AltFn_9);
@@ -73,12 +63,5 @@ void INITCFG_ConfigWatchDog()
 {
 	IWDG_Config();
 	IWDG_ConfigureSlowUpdate();
-}
-//------------------------------------------------
-
-void INITCFG_Sync2Proxy()
-{
-	EXTI_Config(EXTI_PB, EXTI_10, BOTH_TRIG, 0);
-	EXTI_EnableInterrupt(EXTI15_10_IRQn, 0, true);
 }
 //------------------------------------------------
