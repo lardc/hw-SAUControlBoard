@@ -300,6 +300,36 @@
 			<locationURI>PARENT-2-PROJECT_LOC/hw-STM32-libs/Library/ZwWWDG.h</locationURI>
 		</link>
 		<link>
+			<name>Source/Platform/Constraints.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/hw-STM32-libs/BootLoader/Platform/Constraints.c</locationURI>
+		</link>
+		<link>
+			<name>Source/Platform/Constraints.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/hw-STM32-libs/BootLoader/Platform/Constraints.h</locationURI>
+		</link>
+		<link>
+			<name>Source/Platform/DataTable.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/hw-STM32-libs/BootLoader/Platform/DataTable.c</locationURI>
+		</link>
+		<link>
+			<name>Source/Platform/DataTable.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/hw-STM32-libs/BootLoader/Platform/DataTable.h</locationURI>
+		</link>
+		<link>
+			<name>Source/Platform/DeviceObjectDictionary.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/hw-STM32-libs/BootLoader/Platform/DeviceObjectDictionary.h</locationURI>
+		</link>
+		<link>
+			<name>Source/Platform/DeviceProfile.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/hw-STM32-libs/BootLoader/Platform/DeviceProfile.h</locationURI>
+		</link>
+		<link>
 			<name>System/Core/arm_common_tables.h</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/hw-STM32-libs/System/Core/arm_common_tables.h</locationURI>

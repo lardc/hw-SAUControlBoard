@@ -34,10 +34,10 @@ typedef struct __EPStates
 
 // Variables
 //
-SCCI_Interface DEVICE_RS232_Interface, DEVICE_USB_UART_Interface;
+SCCI_Interface DEVICE_USB_UART1_Interface, DEVICE_USB_UART2_Interface;
 BCCI_Interface DEVICE_CAN_Interface;
 //
-static SCCI_IOConfig RS232_IOConfig, USB_UART_IOConfig;
+static SCCI_IOConfig USB_UART1_IOConfig, USB_UART2_IOConfig;
 static BCCI_IOConfig CAN_IOConfig;
 static xCCI_ServiceConfig X_ServiceConfig;
 static xCCI_FUNC_CallbackAction ControllerDispatchFunction;
@@ -66,15 +66,15 @@ void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, volatile Bool
 	MaskChangesFlag = MaskChanges;
 
 	// Init interface
-	RS232_IOConfig.IO_SendArray16 = &USART1_SendArray16;
-	RS232_IOConfig.IO_ReceiveArray16 = &USART1_ReceiveArray16;
-	RS232_IOConfig.IO_GetBytesToReceive = &USART1_GetBytesToReceive;
-	RS232_IOConfig.IO_ReceiveByte = &USART1_ReceiveChar;
+	USB_UART1_IOConfig.IO_SendArray16 = &USART1_SendArray16;
+	USB_UART1_IOConfig.IO_ReceiveArray16 = &USART1_ReceiveArray16;
+	USB_UART1_IOConfig.IO_GetBytesToReceive = &USART1_GetBytesToReceive;
+	USB_UART1_IOConfig.IO_ReceiveByte = &USART1_ReceiveChar;
 
-	USB_UART_IOConfig.IO_SendArray16 = &USART2_SendArray16;
-	USB_UART_IOConfig.IO_ReceiveArray16 = &USART2_ReceiveArray16;
-	USB_UART_IOConfig.IO_GetBytesToReceive = &USART2_GetBytesToReceive;
-	USB_UART_IOConfig.IO_ReceiveByte = &USART2_ReceiveChar;
+	USB_UART2_IOConfig.IO_SendArray16 = &USART2_SendArray16;
+	USB_UART2_IOConfig.IO_ReceiveArray16 = &USART2_ReceiveArray16;
+	USB_UART2_IOConfig.IO_GetBytesToReceive = &USART2_GetBytesToReceive;
+	USB_UART2_IOConfig.IO_ReceiveByte = &USART2_ReceiveChar;
 
 	CAN_IOConfig.IO_SendMessage = &NCAN_SendMessage;
 	CAN_IOConfig.IO_SendMessageEx = &NCAN_SendMessageEx;
@@ -87,16 +87,16 @@ void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, volatile Bool
 	X_ServiceConfig.ValidateCallback16 = &DEVPROFILE_Validate16;
 
 	// Init interface driver
-	SCCI_Init(&DEVICE_RS232_Interface, &RS232_IOConfig, &X_ServiceConfig, (pInt16U)DataTable,
+	SCCI_Init(&DEVICE_USB_UART1_Interface, &USB_UART1_IOConfig, &X_ServiceConfig, (pInt16U)DataTable,
 			  DATA_TABLE_SIZE, SCCI_TIMEOUT_TICKS, &RS232_EPState);
-	SCCI_Init(&DEVICE_USB_UART_Interface, &USB_UART_IOConfig, &X_ServiceConfig, (pInt16U)DataTable,
+	SCCI_Init(&DEVICE_USB_UART2_Interface, &USB_UART2_IOConfig, &X_ServiceConfig, (pInt16U)DataTable,
 			  DATA_TABLE_SIZE, SCCI_TIMEOUT_TICKS, &RS232_EPState);
 	BCCI_Init(&DEVICE_CAN_Interface, &CAN_IOConfig, &X_ServiceConfig, (pInt16U)DataTable,
 			  DATA_TABLE_SIZE, &CAN_EPState);
 
 	// Set write protection
-	SCCI_AddProtectedArea(&DEVICE_RS232_Interface, DATA_TABLE_WP_START, DATA_TABLE_SIZE - 1);
-	SCCI_AddProtectedArea(&DEVICE_USB_UART_Interface, DATA_TABLE_WP_START, DATA_TABLE_SIZE - 1);
+	SCCI_AddProtectedArea(&DEVICE_USB_UART1_Interface, DATA_TABLE_WP_START, DATA_TABLE_SIZE - 1);
+	SCCI_AddProtectedArea(&DEVICE_USB_UART2_Interface, DATA_TABLE_WP_START, DATA_TABLE_SIZE - 1);
 	BCCI_AddProtectedArea(&DEVICE_CAN_Interface, DATA_TABLE_WP_START, DATA_TABLE_SIZE - 1);
 }
 // ----------------------------------------
@@ -118,8 +118,8 @@ void DEVPROFILE_InitEPReadService(pInt16U Indexes, pInt16U Sizes, pInt16U *Count
 		RS232_EPState.ReadEPs[i].ReadCounter = RS232_EPState.ReadEPs[i].LastReadCounter = 0;
 		CAN_EPState.ReadEPs[i].ReadCounter = CAN_EPState.ReadEPs[i].LastReadCounter = 0;
 
-		SCCI_RegisterReadEndpoint16(&DEVICE_RS232_Interface, Indexes[i], &DEVPROFILE_CallbackReadX);
-		SCCI_RegisterReadEndpoint16(&DEVICE_USB_UART_Interface, Indexes[i], &DEVPROFILE_CallbackReadX);
+		SCCI_RegisterReadEndpoint16(&DEVICE_USB_UART1_Interface, Indexes[i], &DEVPROFILE_CallbackReadX);
+		SCCI_RegisterReadEndpoint16(&DEVICE_USB_UART2_Interface, Indexes[i], &DEVPROFILE_CallbackReadX);
 		BCCI_RegisterReadEndpoint16(&DEVICE_CAN_Interface, Indexes[i], &DEVPROFILE_CallbackReadX);
 	}
 }
@@ -139,8 +139,8 @@ void DEVPROFILE_InitEPWriteService(pInt16U Indexes, pInt16U Sizes, pInt16U *Coun
 		CAN_EPState.WriteEPs[i].pDataCounter = Counters[i];
 		CAN_EPState.WriteEPs[i].Data = Datas[i];
 
-		SCCI_RegisterWriteEndpoint16(&DEVICE_RS232_Interface, Indexes[i], &DEVPROFILE_CallbackWriteX);
-		SCCI_RegisterWriteEndpoint16(&DEVICE_USB_UART_Interface, Indexes[i], &DEVPROFILE_CallbackWriteX);
+		SCCI_RegisterWriteEndpoint16(&DEVICE_USB_UART1_Interface, Indexes[i], &DEVPROFILE_CallbackWriteX);
+		SCCI_RegisterWriteEndpoint16(&DEVICE_USB_UART2_Interface, Indexes[i], &DEVPROFILE_CallbackWriteX);
 		BCCI_RegisterWriteEndpoint16(&DEVICE_CAN_Interface, Indexes[i], &DEVPROFILE_CallbackWriteX);
 	}
 }
@@ -149,8 +149,8 @@ void DEVPROFILE_InitEPWriteService(pInt16U Indexes, pInt16U Sizes, pInt16U *Coun
 void DEVPROFILE_ProcessRequests()
 {
 	// Handle interface requests
-	SCCI_Process(&DEVICE_RS232_Interface, CONTROL_TimeCounter, *MaskChangesFlag);
-	SCCI_Process(&DEVICE_USB_UART_Interface, CONTROL_TimeCounter, *MaskChangesFlag);
+	SCCI_Process(&DEVICE_USB_UART1_Interface, CONTROL_TimeCounter, *MaskChangesFlag);
+	SCCI_Process(&DEVICE_USB_UART2_Interface, CONTROL_TimeCounter, *MaskChangesFlag);
 	// Handle interface requests
 	BCCI_Process(&DEVICE_CAN_Interface, *MaskChangesFlag);
 }
