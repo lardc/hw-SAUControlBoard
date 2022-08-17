@@ -12,7 +12,6 @@
 #include "DataTable.h"
 #include "DeviceProfile.h"
 #include "Interrupts.h"
-#include "StateMachine.h"
 #include "BCCIxParams.h"
 
 // Variables
@@ -47,10 +46,6 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 {
 	switch(ActionID)
 	{
-		case ACT_RESET_STATE_MACHINE:
-			SM_Reset();
-			break;
-
 		default:
 			return false;
 	}
