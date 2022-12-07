@@ -20,6 +20,11 @@ Boolean CycleActive = false;
 
 // Forward functions
 Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError);
+void CONTROL_Idle();
+void CONTROL_UpdateWatchDog();
+void CONTROL_Init();
+
+
 
 // Functions
 void CONTROL_Init()
@@ -46,6 +51,21 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 {
 	switch(ActionID)
 	{
+		case ACT_DIAG_PC_SWITCH:
+			{
+				ZbGPIO_PC_SWITCH();
+			}
+			break;
+
+		case ACT_DIAG_PULSE_MCU_FAN:
+			{
+				if(DataTable[REG_INT_FAN])
+					ZbGPIO_INT_FAN(TRUE);
+				else
+					ZbGPIO_INT_FAN(FALSE);
+			}
+			break;
+
 		default:
 			return false;
 	}

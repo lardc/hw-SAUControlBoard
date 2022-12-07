@@ -2,6 +2,10 @@
 #define __DEV_OBJ_DIC_H
 
 // Commands
+#define ACT_DIAG_PC_SWITCH			1 	// Включение ПК
+#define ACT_DIAG_PULSE_MCU_FAN		2	// Включение вентилятора
+
+
 #define ACT_SAVE_TO_ROM				200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM		201	// Восстановление данных из FLASH
 #define ACT_RESET_TO_DEFAULT		202	// Сброс DataTable в состояние по умолчанию
@@ -12,6 +16,8 @@
 #define REG_LAMP_GREEN				128	// Управление зелёным индикатором
 #define REG_LAMP_RED				129	// Управление красным индикатором
 #define REG_COMPATIBILITY_1			130
+#define REG_INT_FAN					131	// Управление вентилятором
+
 //
 #define REG_DEV_STATE				192	// Device state
 #define REG_FAULT_REASON			193	// Fault reason in the case DeviceState -> FAULT

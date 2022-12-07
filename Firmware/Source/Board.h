@@ -17,10 +17,14 @@
 #include "ZwSPI.h"
 
 // Определения для выходных портов
-GPIO_PortPinSettingMacro GPIO_INT_LED			= {GPIOB, Pin_7};
+GPIO_PortPinSettingMacro GPIO_INT_LED			= {GPIOB, Pin_0};
+GPIO_PortPinSettingMacro GPIO_INT_FAN			= {GPIOB, Pin_6};
+GPIO_PortPinSettingMacro GPIO_LAMP_GREEN		= {GPIOB, Pin_7};
+GPIO_PortPinSettingMacro GPIO_LAMP_RED			= {GPIOB, Pin_8};
+GPIO_PortPinSettingMacro GPIO_PC_SWITCH			= {GPIOB, Pin_5};
 
 // Определения для входных портов
-
+GPIO_PortPinSettingMacro GPIO_EXT_BUTTON		= {GPIOA, Pin_3};
 
 // Определения для портов альтернативных функций
 GPIO_PortPinSettingMacro GPIO_ALT_CAN_RX		= {GPIOA, Pin_11};
@@ -30,4 +34,23 @@ GPIO_PortPinSettingMacro GPIO_ALT_UART1_RX		= {GPIOA, Pin_10};
 GPIO_PortPinSettingMacro GPIO_ALT_UART2_TX		= {GPIOB, Pin_3};
 GPIO_PortPinSettingMacro GPIO_ALT_UART2_RX		= {GPIOB, Pin_4};
 
+// ----------------------------------------
+
+void ZbGPIO_FAN(Boolean Set)
+
+{
+
+	GPIO_SetState(GPIO_INT_FAN, Set);
+}
+
+//--------------------------------------
+
+void ZbGPIO_PC_SWITCH()
+{
+	GPIO_SetState(GPIO_PC_SWITCH, TRUE);
+	DELAY_US(500000);
+	GPIO_SetState(GPIO_PC_SWITCH, FALSE);
+}
+
+// ----------------------------------------
 #endif // __BOARD_H
