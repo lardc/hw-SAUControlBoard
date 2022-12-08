@@ -14,10 +14,9 @@
 
 void DBGACT_INT_FAN()
 {
-	if(DataTable[REG_INT_FAN])
-		LL_INT_FAN(TRUE);
-	else
-		LL_INT_FAN(FALSE);
+	LL_INT_FAN(TRUE);
+	DELAY_US(1000000);
+	LL_INT_FAN(FALSE);
 }
 
 //-----------------------------------------------

@@ -13,7 +13,7 @@
 #include "DeviceProfile.h"
 #include "Interrupts.h"
 #include "BCCIxParams.h"
-#include "Diagnostic.h"
+#include "DebugActions.h"
 #include "LowLevel.h"
 
 // Variables
@@ -88,8 +88,6 @@ void CONTROL_RED_LED()
 
 void CONTROL_Idle()
 {
-
-
 	// Управление зеленым индикатором
 	CONTROL_GREEN_LED();
 	// Управление красным индикатором
@@ -107,9 +105,23 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 {
 	switch(ActionID)
 	{
+		case ACT_DIAG_INT_FAN:
+			DBGACT_INT_FAN();
+		break;
 
-		default:
-			return false;
+		case ACT_DIAG_GREEN_LED:
+			DBGACT_GREEN_LED();
+		break;
+
+		case ACT_DIAG_RED_LED:
+			DBGACT_RED_LED();
+		break;
+
+		case ACT_DIAG_PC_SWITCH:
+			DBGACT_PC_SWITCH();
+		break;
+	default:
+		return false;
 	}
 
 	return true;

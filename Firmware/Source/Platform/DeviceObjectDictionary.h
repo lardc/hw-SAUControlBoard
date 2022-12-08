@@ -1,15 +1,13 @@
 ﻿#ifndef __DEV_OBJ_DIC_H
 #define __DEV_OBJ_DIC_H
 
-// Debug Commands
+// Commands
 
 #define ACT_DIAG_INT_FAN			1	// Проверка вентилятора
 #define ACT_DIAG_GREEN_LED			2	// Проверка зеленого индикатора
 #define ACT_DIAG_RED_LED			3	// Проверка красного индикатора
 #define ACT_DIAG_PC_SWITCH			4 	// Включение ПК
-
-// Commands
-
+//
 #define ACT_SAVE_TO_ROM				200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM		201	// Восстановление данных из FLASH
 #define ACT_RESET_TO_DEFAULT		202	// Сброс DataTable в состояние по умолчанию
