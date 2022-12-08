@@ -88,7 +88,7 @@ void CONTROL_RED_LED()
 
 void CONTROL_Idle()
 {
-	DEVPROFILE_ProcessRequests();
+
 
 	// Управление зеленым индикатором
 	CONTROL_GREEN_LED();
@@ -96,6 +96,9 @@ void CONTROL_Idle()
 	CONTROL_RED_LED();
 	// Управление вентилятором
 	CONTROL_INT_FAN();
+
+	DEVPROFILE_ProcessRequests();
+	CONTROL_UpdateWatchDog();
 }
 
 // ----------------------------------------

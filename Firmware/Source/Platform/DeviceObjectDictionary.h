@@ -21,7 +21,6 @@
 #define REG_LAMP_RED				129	// Управление красным индикатором
 #define REG_COMPATIBILITY_1			130
 #define REG_INT_FAN					131	// Управление вентилятором
-#define REG_						132	// Управление
 
 //
 #define REG_DEV_STATE				192	// Device state
