@@ -13,6 +13,7 @@
 #include "DeviceProfile.h"
 #include "Interrupts.h"
 #include "BCCIxParams.h"
+#include "Diagnostic.h"
 
 // Variables
 volatile Int64U CONTROL_TimeCounter = 0;
@@ -51,20 +52,6 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 {
 	switch(ActionID)
 	{
-		case ACT_DIAG_PC_SWITCH:
-			{
-				ZbGPIO_PC_SWITCH();
-			}
-			break;
-
-		case ACT_DIAG_PULSE_MCU_FAN:
-			{
-				if(DataTable[REG_INT_FAN])
-					ZbGPIO_INT_FAN(TRUE);
-				else
-					ZbGPIO_INT_FAN(FALSE);
-			}
-			break;
 
 		default:
 			return false;

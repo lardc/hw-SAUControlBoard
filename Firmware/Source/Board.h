@@ -15,6 +15,7 @@
 #include "ZwIWDG.h"
 #include "ZwNFLASH.h"
 #include "ZwSPI.h"
+#include "Delay.h"
 
 // Определения для выходных портов
 GPIO_PortPinSettingMacro GPIO_INT_LED			= {GPIOB, Pin_0};
@@ -34,23 +35,4 @@ GPIO_PortPinSettingMacro GPIO_ALT_UART1_RX		= {GPIOA, Pin_10};
 GPIO_PortPinSettingMacro GPIO_ALT_UART2_TX		= {GPIOB, Pin_3};
 GPIO_PortPinSettingMacro GPIO_ALT_UART2_RX		= {GPIOB, Pin_4};
 
-// ----------------------------------------
-
-void ZbGPIO_FAN(Boolean Set)
-
-{
-
-	GPIO_SetState(GPIO_INT_FAN, Set);
-}
-
-//--------------------------------------
-
-void ZbGPIO_PC_SWITCH()
-{
-	GPIO_SetState(GPIO_PC_SWITCH, TRUE);
-	DELAY_US(500000);
-	GPIO_SetState(GPIO_PC_SWITCH, FALSE);
-}
-
-// ----------------------------------------
 #endif // __BOARD_H
