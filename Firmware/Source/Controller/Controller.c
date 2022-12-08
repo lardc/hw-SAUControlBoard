@@ -86,6 +86,20 @@ void CONTROL_RED_LED()
 
 // ----------------------------------------
 
+void CONTROL_EXT_BUTTON()
+{
+	if (LL_ExternalButton())
+	{
+		DataTable[REG_EXT_BUTTON] = 0;
+	}
+	else
+	{
+		DataTable[REG_EXT_BUTTON] = 1;
+	}
+}
+
+// ----------------------------------------
+
 void CONTROL_Idle()
 {
 	// Управление зеленым индикатором
@@ -94,6 +108,8 @@ void CONTROL_Idle()
 	CONTROL_RED_LED();
 	// Управление вентилятором
 	CONTROL_INT_FAN();
+	// Состояние внешней кнопки
+	CONTROL_EXT_BUTTON();
 
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();

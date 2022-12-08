@@ -41,4 +41,13 @@ void LL_PC_SWITCH()
 		DELAY_US(500000);
 	GPIO_SetState(GPIO_PC_SWITCH, FALSE);
 }
+//------------------------------------------------------------------------------
+//
+// EXT Button
+bool LL_ExternalButton()
+{
+	return GPIO_GetState(GPIO_EXT_BUTTON);
+}
+
+//------------------------------------------------------------------------------
 
