@@ -37,8 +37,8 @@ void LL_ExternalLampRED(bool State)
 // Button PC
 void LL_PC_SWITCH()
 {
-	ZwGPIO_WritePin(GPIO_PC_SWITCH, TRUE);
+	GPIO_SetState(GPIO_PC_SWITCH, TRUE);
 		DELAY_US(500000);
-	ZwGPIO_WritePin(GPIO_PC_SWITCH, FALSE);
+	GPIO_SetState(GPIO_PC_SWITCH, FALSE);
 }
 

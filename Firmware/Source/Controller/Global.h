@@ -5,7 +5,7 @@
 #include "stdinc.h"
 
 // Definitions
-#define MME_CODE						301
+#define MME_CODE						311
 
 #define	xCCI_TIMEOUT_TICKS				1000
 #define EP_COUNT						0

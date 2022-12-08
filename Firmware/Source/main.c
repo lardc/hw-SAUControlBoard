@@ -29,6 +29,9 @@ int main()
 	// Инициализация логики контроллера
 	CONTROL_Init();
 	
+	// включение ПК
+	LL_PC_SWITCH();
+
 	// Фоновый цикл
 	while(TRUE)
 		CONTROL_Idle();

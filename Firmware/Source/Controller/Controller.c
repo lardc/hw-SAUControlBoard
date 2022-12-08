@@ -14,6 +14,7 @@
 #include "Interrupts.h"
 #include "BCCIxParams.h"
 #include "Diagnostic.h"
+#include "LowLevel.h"
 
 // Variables
 volatile Int64U CONTROL_TimeCounter = 0;
@@ -40,12 +41,63 @@ void CONTROL_Init()
 	DEVPROFILE_ResetControlSection();
 	DataTable[REG_MME_CODE] = MME_CODE;
 }
+
+// ----------------------------------------
+
+void CONTROL_INT_FAN()
+{
+	if (DataTable[REG_INT_FAN] == 1)
+	{
+		LL_INT_FAN(TRUE);
+	}
+	else
+	{
+		LL_INT_FAN(FALSE);
+	}
+}
+
+// ----------------------------------------
+
+void CONTROL_GREEN_LED()
+{
+	if (DataTable[REG_LAMP_GREEN] == 1)
+	{
+		LL_ExternalLampGREEN(TRUE);
+	}
+	else
+	{
+		LL_ExternalLampGREEN(FALSE);
+	}
+}
+
+// ----------------------------------------
+
+void CONTROL_RED_LED()
+{
+	if (DataTable[REG_LAMP_RED] == 1)
+	{
+		LL_ExternalLampRED(TRUE);
+	}
+	else
+	{
+		LL_ExternalLampRED(FALSE);
+	}
+}
+
 // ----------------------------------------
 
 void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
+
+	// Управление зеленым индикатором
+	CONTROL_GREEN_LED();
+	// Управление красным индикатором
+	CONTROL_RED_LED();
+	// Управление вентилятором
+	CONTROL_INT_FAN();
 }
+
 // ----------------------------------------
 
 Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
