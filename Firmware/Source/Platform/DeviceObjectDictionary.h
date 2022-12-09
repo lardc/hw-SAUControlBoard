@@ -3,10 +3,10 @@
 
 // Commands
 
-#define ACT_DIAG_INT_FAN			1	// Проверка вентилятора
-#define ACT_DIAG_GREEN_LED			2	// Проверка зеленого индикатора
-#define ACT_DIAG_RED_LED			3	// Проверка красного индикатора
-#define ACT_DIAG_PC_SWITCH			4 	// Включение ПК
+#define ACT_DIAG_INT_FAN			10	// Проверка вентилятора
+#define ACT_DIAG_GREEN_LED			11	// Проверка зеленого индикатора
+#define ACT_DIAG_RED_LED			12	// Проверка красного индикатора
+#define ACT_DIAG_PC_SWITCH			13 	// Включение ПК
 //
 #define ACT_SAVE_TO_ROM				200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM		201	// Восстановление данных из FLASH
@@ -25,10 +25,10 @@
 #define REG_DISABLE_REASON			194	// Fault reason in the case DeviceState -> DISABLED (Не используется, для совместимости)
 #define REG_WARNING					195	// Warning if present (Не используется, для совместимости)
 //
-#define REG_EXT_BUTTON				197 // Состояние внешней кнопки
-#define REG_SENSOR_2				198	// (Не используется, для совместимости)
-#define REG_SENSOR_3				199	// (Не используется, для совместимости)
-#define REG_SENSOR_4				200	// (Не используется, для совместимости)
+#define REG_SENSOR_2				197	// (Не используется, для совместимости)
+#define REG_SENSOR_3				198	// (Не используется, для совместимости)
+#define REG_SENSOR_4				199	// (Не используется, для совместимости)
+#define REG_EXT_BUTTON				200 // Состояние внешней кнопки
 //
 #define REG_OVERLAP_COUNT_REQ		210	// Overlapping requests via SCCI interface
 #define REG_OVERLAP_COUNT_RESP		211	// Overlapping responses via SCCI interface
