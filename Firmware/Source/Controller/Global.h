@@ -7,7 +7,7 @@
 // Definitions
 #define MME_CODE						311
 
-#define	xCCI_TIMEOUT_TICKS				1000
+#define	xCCI_TIMEOUT_TICKS				2000
 #define EP_COUNT						0
 #define EP_WRITE_COUNT					0
 #define FEP_COUNT						0
