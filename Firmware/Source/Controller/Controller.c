@@ -26,8 +26,6 @@ void CONTROL_Idle();
 void CONTROL_UpdateWatchDog();
 void CONTROL_Init();
 
-
-
 // Functions
 void CONTROL_Init()
 {
@@ -41,80 +39,23 @@ void CONTROL_Init()
 	DEVPROFILE_ResetControlSection();
 	DataTable[REG_MME_CODE] = MME_CODE;
 }
-
-// ----------------------------------------
-
-void CONTROL_INT_FAN()
-{
-	if (DataTable[REG_INT_FAN] == 1)
-	{
-		LL_INT_FAN(TRUE);
-	}
-	else
-	{
-		LL_INT_FAN(FALSE);
-	}
-}
-
-// ----------------------------------------
-
-void CONTROL_GREEN_LED()
-{
-	if (DataTable[REG_LAMP_GREEN] == 1)
-	{
-		LL_ExternalLampGREEN(TRUE);
-	}
-	else
-	{
-		LL_ExternalLampGREEN(FALSE);
-	}
-}
-
-// ----------------------------------------
-
-void CONTROL_RED_LED()
-{
-	if (DataTable[REG_LAMP_RED] == 1)
-	{
-		LL_ExternalLampRED(TRUE);
-	}
-	else
-	{
-		LL_ExternalLampRED(FALSE);
-	}
-}
-
-// ----------------------------------------
-
-void CONTROL_EXT_BUTTON()
-{
-	if (LL_ExternalButton())
-	{
-		DataTable[REG_EXT_BUTTON] = 0;
-	}
-	else
-	{
-		DataTable[REG_EXT_BUTTON] = 1;
-	}
-}
-
 // ----------------------------------------
 
 void CONTROL_Idle()
 {
-	// Управление зеленым индикатором
-	CONTROL_GREEN_LED();
-	// Управление красным индикатором
-	CONTROL_RED_LED();
+	// Управление индикаторами индикатором
+	LL_LampGreen(DataTable[REG_LAMP_GREEN]);
+	LL_LampRed(DataTable[REG_LAMP_RED]);
+
 	// Управление вентилятором
-	CONTROL_INT_FAN();
+	LL_Fan(DataTable[REG_INT_FAN]);
+
 	// Состояние внешней кнопки
-	CONTROL_EXT_BUTTON();
+	DataTable[REG_EXT_BUTTON] = LL_ExternalButton() ? 0 : 1;
 
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
 }
-
 // ----------------------------------------
 
 Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
@@ -122,22 +63,23 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 	switch(ActionID)
 	{
 		case ACT_DIAG_INT_FAN:
-			DBGACT_INT_FAN();
-		break;
+			DBGACT_Fan();
+			break;
 
 		case ACT_DIAG_GREEN_LED:
-			DBGACT_GREEN_LED();
-		break;
+			DBGACT_LampGreen();
+			break;
 
 		case ACT_DIAG_RED_LED:
-			DBGACT_RED_LED();
-		break;
+			DBGACT_LampRed();
+			break;
 
 		case ACT_DIAG_PC_SWITCH:
-			DBGACT_PC_SWITCH();
-		break;
-	default:
-		return false;
+			DBGACT_SwitchPC();
+			break;
+
+		default:
+			return false;
 	}
 
 	return true;

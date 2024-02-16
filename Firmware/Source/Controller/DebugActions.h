@@ -7,9 +7,9 @@
 
 // Functions
 //
-void DBGACT_INT_FAN();
-void DBGACT_GREEN_LED();
-void DBGACT_RED_LED();
-void DBGACT_PC_SWITCH();
+void DBGACT_Fan();
+void DBGACT_LampGreen();
+void DBGACT_LampRed();
+void DBGACT_SwitchPC();
 
 #endif //__DEBUGACTIONS_H

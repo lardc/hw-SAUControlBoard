@@ -2,50 +2,38 @@
 #include "DebugActions.h"
 
 // Include
-//
 #include "LowLevel.h"
 #include "Board.h"
 #include "DataTable.h"
 #include "Delay.h"
 
 // Functions
-//
-//-----------------------------------------------
-
-void DBGACT_INT_FAN()
+void DBGACT_Fan()
 {
-	LL_INT_FAN(TRUE);
+	LL_Fan(true);
 	DELAY_US(1000000);
-	LL_INT_FAN(FALSE);
+	LL_Fan(false);
 }
-
 //-----------------------------------------------
 
-void DBGACT_GREEN_LED()
+void DBGACT_LampGreen()
 {
-	LL_ExternalLampGREEN(TRUE);
+	LL_LampGreen(true);
 	DELAY_US(500000);
-	LL_ExternalLampGREEN(FALSE);
+	LL_LampGreen(false);
 }
-
 //-----------------------------------------------
 
-void DBGACT_RED_LED()
+void DBGACT_LampRed()
 {
-	LL_ExternalLampRED(TRUE);
+	LL_LampRed(true);
 	DELAY_US(500000);
-	LL_ExternalLampRED(FALSE);
+	LL_LampRed(false);
 }
-
 //-----------------------------------------------
 
-void DBGACT_PC_SWITCH()
+void DBGACT_SwitchPC()
 {
-	LL_PC_SWITCH();
+	LL_SwitchPC();
 }
-
 //-----------------------------------------------
-
-
-
-

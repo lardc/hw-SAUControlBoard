@@ -6,10 +6,10 @@
 
 // Functions
 void LL_ToggleBoardLED();
-void LL_INT_FAN(bool State);
-void LL_ExternalLampGREEN(bool State);
-void LL_ExternalLampRED(bool State);
-void LL_PC_SWITCH();
+void LL_Fan(bool State);
+void LL_LampGreen(bool State);
+void LL_LampRed(bool State);
+void LL_SwitchPC();
 bool LL_ExternalButton();
 
 #endif //__LOWLEVEL_H

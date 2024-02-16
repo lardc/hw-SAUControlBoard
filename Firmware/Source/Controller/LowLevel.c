@@ -6,48 +6,40 @@
 #include "Delay.h"
 
 // Functions
-//
-// LED on board
 void LL_ToggleBoardLED()
 {
 	GPIO_Toggle(GPIO_INT_LED);
 }
-//------------------------------------------------------------------------------
-//
-// FAN
-void LL_INT_FAN(bool State)
+//-----------------------------
+
+void LL_Fan(bool State)
 {
 	GPIO_SetState(GPIO_INT_FAN, State);
 }
-//------------------------------------------------------------------------------
-//
-// External lamp GREEN
-void LL_ExternalLampGREEN(bool State)
+//-----------------------------
+
+void LL_LampGreen(bool State)
 {
 	GPIO_SetState(GPIO_LAMP_GREEN, State);
 }
-//------------------------------------------------------------------------------
-//
-// External lamp RED
-void LL_ExternalLampRED(bool State)
+//-----------------------------
+
+void LL_LampRed(bool State)
 {
 	GPIO_SetState(GPIO_LAMP_RED, State);
 }
-//------------------------------------------------------------------------------
-// Button PC
-void LL_PC_SWITCH()
+//-----------------------------
+
+void LL_SwitchPC()
 {
-	GPIO_SetState(GPIO_PC_SWITCH, TRUE);
-		DELAY_US(500000);
-	GPIO_SetState(GPIO_PC_SWITCH, FALSE);
+	GPIO_SetState(GPIO_PC_SWITCH, true);
+	DELAY_US(500000);
+	GPIO_SetState(GPIO_PC_SWITCH, false);
 }
-//------------------------------------------------------------------------------
-//
-// EXT Button
+//-----------------------------
+
 bool LL_ExternalButton()
 {
 	return GPIO_GetState(GPIO_EXT_BUTTON);
 }
-
-//------------------------------------------------------------------------------
-
+//-----------------------------
