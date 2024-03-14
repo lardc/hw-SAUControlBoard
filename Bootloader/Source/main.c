@@ -71,11 +71,11 @@ void ConfigGPIO()
 	GPIO_Config(GPIOA, Pin_12, AltFn, PushPull, HighSpeed, NoPull); //PA12(CAN TX)
 	GPIO_AltFn(GPIOA, Pin_12, AltFn_9);
 	
-	GPIO_Config(GPIOB, Pin_3, AltFn, PushPull, HighSpeed, NoPull); //PB3(USART2 TX)
-	GPIO_AltFn(GPIOB, Pin_3, AltFn_7);
+	GPIO_Config(GPIOB, Pin_10, AltFn, PushPull, HighSpeed, NoPull); //PB10(USART3 TX)
+	GPIO_AltFn(GPIOB, Pin_10, AltFn_7);
 
-	GPIO_Config(GPIOB, Pin_4, AltFn, PushPull, HighSpeed, NoPull); //PB4(USART2 RX)
-	GPIO_AltFn(GPIOB, Pin_4, AltFn_7);
+	GPIO_Config(GPIOB, Pin_11, AltFn, PushPull, HighSpeed, NoPull); //PB11(USART3 RX)
+	GPIO_AltFn(GPIOB, Pin_10, AltFn_7);
 }
 //--------------------------------------------
 
@@ -93,8 +93,8 @@ void ConfigUART()
 	USARTx_Init(USART1, SYSCLK, USART_BAUDRATE);
 	USARTx_RecieveInterrupt(USART1, true);
 
-	USARTx_Init(USART2, SYSCLK, USART_BAUDRATE);
-	USARTx_RecieveInterrupt(USART2, true);
+	USARTx_Init(USART3, SYSCLK, USART_BAUDRATE);
+	USARTx_RecieveInterrupt(USART3, true);
 }
 //--------------------------------------------
 
