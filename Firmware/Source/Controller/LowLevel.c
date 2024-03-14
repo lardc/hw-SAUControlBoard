@@ -30,14 +30,6 @@ void LL_LampRed(bool State)
 }
 //-----------------------------
 
-void LL_SwitchPC()
-{
-	GPIO_SetState(GPIO_PC_SWITCH, true);
-	DELAY_US(500000);
-	GPIO_SetState(GPIO_PC_SWITCH, false);
-}
-//-----------------------------
-
 bool LL_ExternalButton()
 {
 	return GPIO_GetState(GPIO_EXT_BUTTON);
