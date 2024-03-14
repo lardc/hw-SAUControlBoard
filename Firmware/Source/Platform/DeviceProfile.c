@@ -45,11 +45,11 @@ typedef struct __EPStates
 
 // Variables
 //
-SCCI_Interface DEVICE_USB_UART1_Interface, DEVICE_USB_UART2_Interface;
+SCCI_Interface DEVICE_USB_UART1_Interface, DEVICE_USB_UART3_Interface;
 BCCI_Interface DEVICE_CAN_Interface;
 BCCIM_Interface MASTER_DEVICE_CAN_Interface;
 //
-static SCCI_IOConfig USB_UART1_IOConfig, USB_UART2_IOConfig;
+static SCCI_IOConfig USB_UART1_IOConfig, USB_UART3_IOConfig;
 static BCCI_IOConfig CAN_IOConfig;
 static xCCI_ServiceConfig X_ServiceConfig;
 static EPStates DummyEPState;
@@ -78,10 +78,10 @@ void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, Boolean* Mask
 	USB_UART1_IOConfig.IO_GetBytesToReceive = &USART1_GetBytesToReceive;
 	USB_UART1_IOConfig.IO_ReceiveByte = &USART1_ReceiveChar;
 
-	USB_UART2_IOConfig.IO_SendArray16 = &USART2_SendArray16;
-	USB_UART2_IOConfig.IO_ReceiveArray16 = &USART2_ReceiveArray16;
-	USB_UART2_IOConfig.IO_GetBytesToReceive = &USART2_GetBytesToReceive;
-	USB_UART2_IOConfig.IO_ReceiveByte = &USART2_ReceiveChar;
+	USB_UART3_IOConfig.IO_SendArray16 = &USART3_SendArray16;
+	USB_UART3_IOConfig.IO_ReceiveArray16 = &USART3_ReceiveArray16;
+	USB_UART3_IOConfig.IO_GetBytesToReceive = &USART3_GetBytesToReceive;
+	USB_UART3_IOConfig.IO_ReceiveByte = &USART3_ReceiveChar;
 
 	CAN_IOConfig.IO_SendMessage = &NCAN_SendMessage;
 	CAN_IOConfig.IO_SendMessageEx = &NCAN_SendMessageEx;
@@ -97,14 +97,14 @@ void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, Boolean* Mask
 	// Init interface driver
 	SCCI_Init(&DEVICE_USB_UART1_Interface, &USB_UART1_IOConfig, &X_ServiceConfig, (pInt16U)DataTable, DATA_TABLE_SIZE,
 			xCCI_TIMEOUT_TICKS, &DummyEPState);
-	SCCI_Init(&DEVICE_USB_UART2_Interface, &USB_UART2_IOConfig, &X_ServiceConfig, (pInt16U)DataTable, DATA_TABLE_SIZE,
+	SCCI_Init(&DEVICE_USB_UART3_Interface, &USB_UART3_IOConfig, &X_ServiceConfig, (pInt16U)DataTable, DATA_TABLE_SIZE,
 			xCCI_TIMEOUT_TICKS, &DummyEPState);
 	BCCI_Init(&DEVICE_CAN_Interface, &CAN_IOConfig, &X_ServiceConfig, (pInt16U)DataTable, DATA_TABLE_SIZE, &DummyEPState);
 	BCCIM_Init(&MASTER_DEVICE_CAN_Interface, &CAN_IOConfig, xCCI_TIMEOUT_TICKS, &CONTROL_TimeCounter);
 
 	// Set write protection
 	SCCI_AddProtectedArea(&DEVICE_USB_UART1_Interface, DATA_TABLE_WP_START, DATA_TABLE_SIZE - 1);
-	SCCI_AddProtectedArea(&DEVICE_USB_UART2_Interface, DATA_TABLE_WP_START, DATA_TABLE_SIZE - 1);
+	SCCI_AddProtectedArea(&DEVICE_USB_UART3_Interface, DATA_TABLE_WP_START, DATA_TABLE_SIZE - 1);
 	BCCI_AddProtectedArea(&DEVICE_CAN_Interface, DATA_TABLE_WP_START, DATA_TABLE_SIZE - 1);
 }
 // ----------------------------------------
@@ -113,7 +113,7 @@ void DEVPROFILE_ProcessRequests()
 {
 	// Handle interface requests
 	SCCI_Process(&DEVICE_USB_UART1_Interface, CONTROL_TimeCounter, *MaskChangesFlag);
-	SCCI_Process(&DEVICE_USB_UART2_Interface, CONTROL_TimeCounter, *MaskChangesFlag);
+	SCCI_Process(&DEVICE_USB_UART3_Interface, CONTROL_TimeCounter, *MaskChangesFlag);
 
 	// Handle interface requests
 	BCCI_Process(&DEVICE_CAN_Interface, *MaskChangesFlag);

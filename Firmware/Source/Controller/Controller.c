@@ -43,16 +43,6 @@ void CONTROL_Init()
 
 void CONTROL_Idle()
 {
-	// Управление индикаторами индикатором
-	LL_LampGreen(DataTable[REG_LAMP_GREEN]);
-	LL_LampRed(DataTable[REG_LAMP_RED]);
-
-	// Управление вентилятором
-	LL_Fan(DataTable[REG_INT_FAN]);
-
-	// Состояние внешней кнопки
-	DataTable[REG_EXT_BUTTON] = LL_ExternalButton() ? 0 : 1;
-
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
 }
@@ -62,8 +52,12 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 {
 	switch(ActionID)
 	{
-		case ACT_DIAG_INT_FAN:
-			DBGACT_Fan();
+		case ACT_DIAG_SELFTEST_RELAY:
+			DBGACT_Relay();
+			break;
+
+		case ACT_DIAG_SWITCH:
+			DBGACT_Switch();
 			break;
 
 		case ACT_DIAG_GREEN_LED:
@@ -72,10 +66,6 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 
 		case ACT_DIAG_RED_LED:
 			DBGACT_LampRed();
-			break;
-
-		case ACT_DIAG_PC_SWITCH:
-			DBGACT_SwitchPC();
 			break;
 
 		default:

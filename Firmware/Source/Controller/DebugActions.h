@@ -7,9 +7,9 @@
 
 // Functions
 //
-void DBGACT_Fan();
+void DBGACT_Relay();
+void DBGACT_Switch();
 void DBGACT_LampGreen();
 void DBGACT_LampRed();
-void DBGACT_SwitchPC();
 
 #endif //__DEBUGACTIONS_H
