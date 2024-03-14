@@ -21,23 +21,23 @@
 <booleanAttribute key="com.atollic.hardwaredebug.stlink.enable_external_loader" value="false"/>
 <booleanAttribute key="com.atollic.hardwaredebug.stlink.enable_logging" value="false"/>
 <stringAttribute key="com.atollic.hardwaredebug.stlink.external_loader" value=""/>
-<stringAttribute key="com.atollic.hardwaredebug.stlink.log_file" value=""/>
+<stringAttribute key="com.atollic.hardwaredebug.stlink.log_file" value="D:\proton\Test equipment\Turn On Unit\Controller soft\Version 1.1\SAUControlBoard\Debug\st-link_gdbserver_log.txt"/>
 <booleanAttribute key="com.atollic.hardwaredebug.stlink.stlink_check_serial_number" value="false"/>
 <stringAttribute key="com.atollic.hardwaredebug.stlink.stlink_txt_serial_number" value=""/>
 <stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="${TOOLCHAIN_PATH}/arm-atollic-eabi-gdb"/>
 <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Release/ControlUnitBoard_bootloader.elf"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="ControlUnitBoard_bootloader"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Release/SAUControlBoard.elf"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="SAUControlBoard"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value=""/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/ControlUnitBoard_bootloader"/>
+<listEntry value="/SAUControlBoard"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
-<stringAttribute key="org.eclipse.dsf.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;memoryBlockExpressionList context=&quot;reserved-for-future-use&quot;&gt;&#13;&#10;&lt;gdbmemoryBlockExpression address=&quot;536870912&quot; label=&quot;0x20000000&quot;/&gt;&#13;&#10;&lt;gdbmemoryBlockExpression address=&quot;536870912&quot; label=&quot;0x20000000&quot;/&gt;&#13;&#10;&lt;/memoryBlockExpressionList&gt;&#13;&#10;"/>
+<stringAttribute key="org.eclipse.dsf.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;memoryBlockExpressionList context=&quot;reserved-for-future-use&quot;&gt;&#13;&#10;&lt;gdbmemoryBlockExpression address=&quot;536870912&quot; label=&quot;0x20000000&quot;/&gt;&#13;&#10;&lt;gdbmemoryBlockExpression address=&quot;536870912&quot; label=&quot;0x20000000&quot;/&gt;&#13;&#10;&lt;gdbmemoryBlockExpression address=&quot;536870912&quot; label=&quot;0x20000000&quot;/&gt;&#13;&#10;&lt;/memoryBlockExpressionList&gt;&#13;&#10;"/>
 <stringAttribute key="process_factory_id" value="org.eclipse.cdt.dsf.gdb.GdbProcessFactory"/>
 </launchConfiguration>
