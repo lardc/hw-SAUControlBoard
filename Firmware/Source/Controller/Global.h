@@ -12,7 +12,11 @@
 #define EP_WRITE_COUNT					0
 #define FEP_COUNT						0
 #define ENABLE_LOCKING					FALSE
-
+//
 #define TIME_LED_BLINK					500		// Мигание светодиодом (в мс)
+//
+#define ADC_REF_VOLTAGE					3300	// мВ
+#define ADC_RESOLUTION					4095
+
 
 #endif // __GLOBAL_H
