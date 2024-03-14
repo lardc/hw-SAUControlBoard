@@ -15,6 +15,9 @@ int main()
 	// Настройка портов
 	INITCFG_ConfigIO();
 	
+	// Начальная настройка АЦП
+	INITCFG_ConfigADC();
+
 	// Настройка CAN
 	INITCFG_ConfigCAN();
 	

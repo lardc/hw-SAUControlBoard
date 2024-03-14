@@ -16,6 +16,10 @@ void INITCFG_ConfigIO()
 	RCC_GPIO_Clk_EN(PORTA);
 	RCC_GPIO_Clk_EN(PORTB);
 	
+	// Аналоговые порты
+	GPIO_InitAnalog(GPIO_MEASURE_CH1);
+	GPIO_InitAnalog(GPIO_MEASURE_CH2);
+
 	// Выходы
 	GPIO_InitPushPullOutput(GPIO_INT_LED);
 	GPIO_InitPushPullOutput(GPIO_TEST1);
@@ -93,5 +97,15 @@ void INITCFG_ConfigWatchDog()
 {
 	IWDG_Config();
 	IWDG_ConfigureSlowUpdate();
+}
+//------------------------------------------------
+
+void INITCFG_ConfigADC()
+{
+	RCC_ADC_Clk_EN(ADC_12_ClkEN);
+
+	ADC_Calibration(ADC1);
+	ADC_Enable(ADC1);
+	ADC_SoftTrigConfig(ADC1);
 }
 //------------------------------------------------

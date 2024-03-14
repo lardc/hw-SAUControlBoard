@@ -17,6 +17,10 @@
 #include "ZwSPI.h"
 #include "Delay.h"
 
+// Определения аналоговых портов
+GPIO_PortPinSettingMacro GPIO_MEASURE_CH1		= {GPIOA, Pin_0};
+GPIO_PortPinSettingMacro GPIO_MEASURE_CH2		= {GPIOA, Pin_1};
+
 // Определения для выходных портов
 GPIO_PortPinSettingMacro GPIO_INT_LED			= {GPIOB, Pin_1};
 GPIO_PortPinSettingMacro GPIO_TEST1				= {GPIOB, Pin_7};
