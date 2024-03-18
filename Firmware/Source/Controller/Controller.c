@@ -15,10 +15,13 @@
 #include "BCCIxParams.h"
 #include "DebugActions.h"
 #include "LowLevel.h"
+#include "SelfTest.h"
 
 // Variables
 volatile Int64U CONTROL_TimeCounter = 0;
 Boolean CycleActive = false;
+volatile DeviceState CONTROL_State = DS_None;
+volatile DeviceSelfTestState CONTROL_SubState = STS_None;
 
 // Forward functions
 Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError);
@@ -43,6 +46,8 @@ void CONTROL_Init()
 
 void CONTROL_Idle()
 {
+	SELFTEST_Process();
+
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
 }
@@ -75,6 +80,27 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 	return true;
 }
 // ----------------------------------------
+
+void CONTROL_SwitchToFault(Int16U Reason)
+{
+	CONTROL_SetDeviceState(DS_Fault);
+	DataTable[REG_FAULT_REASON] = Reason;
+}
+//------------------------------------------
+
+void CONTROL_SetDeviceState(DeviceState NewState)
+{
+	CONTROL_State = NewState;
+	DataTable[REG_DEV_STATE] = NewState;
+}
+//------------------------------------------
+
+void CONTROL_SetDeviceSubState(DeviceSelfTestState NewSubState)
+{
+	CONTROL_SubState = NewSubState;
+	DataTable[REG_SUB_STATE] = NewSubState;
+}
+//------------------------------------------
 
 void CONTROL_UpdateWatchDog()
 {
