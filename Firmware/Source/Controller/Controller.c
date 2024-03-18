@@ -20,7 +20,7 @@
 // Variables
 volatile Int64U CONTROL_TimeCounter = 0;
 Boolean CycleActive = false;
-volatile DeviceState CONTROL_State = DS_None;
+volatile DeviceState CONTROL_State = DS_InSelfTest;
 volatile DeviceSelfTestState CONTROL_SubState = STS_None;
 
 // Forward functions
@@ -28,7 +28,7 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError);
 void CONTROL_Idle();
 void CONTROL_UpdateWatchDog();
 void CONTROL_Init();
-void CONTROL_SafetyInputs();
+void CONTROL_SafetyOutputs();
 
 // Functions
 void CONTROL_Init()
@@ -48,7 +48,7 @@ void CONTROL_Init()
 void CONTROL_Idle()
 {
 	SELFTEST_Process();
-	CONTROL_SafetyInputs();
+	CONTROL_SafetyOutputs();
 	CONTROL_Indication();
 
 	DEVPROFILE_ProcessRequests();
@@ -116,6 +116,7 @@ void CONTROL_SafetySwitchCheck()
 			LL_ToggleSwitchLamp(Lamp_InputSwitch, false);
 	}
 }
+// ----------------------------------------
 
 void CONTROL_SafetyOutputs()
 {
