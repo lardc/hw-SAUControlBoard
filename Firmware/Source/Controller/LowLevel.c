@@ -122,7 +122,7 @@ bool LL_ReadTemperatureFlag()
 }
 //-----------------------------
 
-float LL_MEASURE_VoltageX(Int16U ADC1Channel)
+float LL_MEASURE_OutputVoltage(Int16U ADC1Channel)
 {
 	return (float)ADC_Measure(ADC1, ADC1Channel) * ADC_REF_VOLTAGE / ADC_RESOLUTION;
 }

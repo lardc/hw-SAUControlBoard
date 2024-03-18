@@ -28,7 +28,7 @@
 // ----------------------------------------------
 
 // ADC
-#define ADC1_SAFETY_CH1					1
-#define ADC1_SAFETY_CH2					2
+#define ADC1_OUTPUT1					1
+#define ADC1_OUTPUT2					2
 
 #endif // __SYSCONFIG_H

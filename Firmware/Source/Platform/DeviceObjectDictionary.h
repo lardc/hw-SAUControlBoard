@@ -46,6 +46,12 @@
 #define REG_FWINFO_STR_LEN						260	// Length of the information string record
 #define REG_FWINFO_STR_BEGIN					261	// Begining of the information string record
 
+// Fault and disable codes
+//
+#define DF_NONE
+#define DF_SHORT_OUTPUT1						1	// КЗ на выходе 1
+#define DF_SHORT_OUTPUT2						2	// КЗ на выходе 2
+
 //  User Errors
 //
 #define ERR_NONE								0
