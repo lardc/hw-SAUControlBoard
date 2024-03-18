@@ -11,6 +11,8 @@
 #define ACT_SET_ACTIVE							100	// Команда активации контура безопасности
 #define ACT_SET_INACTIVE						101	// Команда деактивации контура безопасности
 //
+#define ACT_START_SELF_TEST						110	// Запуск самотестирования
+//
 #define ACT_SAVE_TO_ROM							200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM					201	// Восстановление данных из FLASH
 #define ACT_RESET_TO_DEFAULT					202	// Сброс DataTable в состояние по умолчанию
@@ -19,8 +21,7 @@
 
 // Registers
 //
-#define REG_ST_IND_GREEN						128	// Зеленый индикатор испытания
-#define REG_ST_IND_RED							129	// Красный индикатор испытания
+#define REG_STATUS_INDICATION					128	// 0 - зеленый, 1 - красный
 //
 #define REG_DBG									150	// Отладочный регистр
 //

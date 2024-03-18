@@ -2,7 +2,9 @@
 #define __LOWLEVEL_H
 
 // Include
+//
 #include "stdinc.h"
+#include "SelfTest.h"
 
 // Types
 //
@@ -22,11 +24,17 @@ typedef enum _SafetyLine
 	SF_Out2					= 4,
 }SafetyLine;
 
+typedef enum _ColorLamp
+{
+	Green		= 0,
+	Red			= 1,
+	Yellow		= 2
+}ColorLamp;
+
 // Functions
 void LL_ToggleBoardLED();
-void LL_SelfTestNum(SafetyLine Line, bool State);
-void LL_LampGreen(bool State);
-void LL_LampRed(bool State);
+void LL_SelfTestNum(SelfTestStage Line, bool State);
+void LL_StatusLamp(ColorLamp Color);
 void LL_ToggleSwitchLamp(SwitchLamp Lamp, bool State);
 bool LL_ReadSafetyLine(SafetyLine Line);
 float LL_MEASURE_OutputVoltage(Int16U ADC1Channel);

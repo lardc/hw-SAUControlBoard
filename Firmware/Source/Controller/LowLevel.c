@@ -14,7 +14,7 @@ void LL_ToggleBoardLED()
 }
 //-----------------------------
 
-void LL_SelfTestNum(SafetyLine Line, bool State)
+void LL_SelfTestNum(SelfTestStage Line, bool State)
 {
 	GPIO_SetState(GPIO_TEST1, false);
 	GPIO_SetState(GPIO_TEST2, false);
@@ -24,23 +24,23 @@ void LL_SelfTestNum(SafetyLine Line, bool State)
 
 	switch(Line)
 	{
-		case SF_OptBarierSwitch:
+		case ST_OptBarier:
 			GPIO_SetState(GPIO_TEST1, State);
 			break;
 
-		case SF_DoorSwitch:
+		case ST_Door:
 			GPIO_SetState(GPIO_TEST2, State);
 			break;
 
-		case SF_InputSwitch:
+		case ST_Input1:
 			GPIO_SetState(GPIO_TEST3, State);
 			break;
 
-		case SF_Out1:
+		case ST_STOP:
 			GPIO_SetState(GPIO_TEST4, State);
 			break;
 
-		case SF_Out2:
+		case ST_Input2:
 			GPIO_SetState(GPIO_TEST5, State);
 			break;
 
@@ -50,17 +50,20 @@ void LL_SelfTestNum(SafetyLine Line, bool State)
 }
 //-----------------------------
 
-void LL_LampGreen(bool State)
+void LL_StatusLamp(ColorLamp Color)
 {
-	GPIO_SetState(GPIO_ST_LAMP_GREEN, State);
-}
-//-----------------------------
+	if(Color == Red)
+	{
+		GPIO_SetState(GPIO_ST_LAMP_GREEN, false);
+		GPIO_SetState(GPIO_ST_LAMP_RED, true);
+	}
 
-void LL_LampRed(bool State)
-{
-	GPIO_SetState(GPIO_ST_LAMP_RED, State);
+	if(Color == Green)
+	{
+		GPIO_SetState(GPIO_ST_LAMP_GREEN, true);
+		GPIO_SetState(GPIO_ST_LAMP_RED, false);
+	}
 }
-//-----------------------------
 
 void LL_ToggleSwitchLamp(SwitchLamp Lamp, bool State)
 {

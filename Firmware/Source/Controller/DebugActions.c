@@ -61,16 +61,12 @@ void DBGACT_Switch()
 
 void DBGACT_LampGreen()
 {
-	LL_LampGreen(true);
-	DELAY_US(500000);
-	LL_LampGreen(false);
+	LL_StatusLamp(Green);
 }
 //-----------------------------------------------
 
 void DBGACT_LampRed()
 {
-	LL_LampRed(true);
-	DELAY_US(500000);
-	LL_LampRed(false);
+	LL_StatusLamp(Red);
 }
 //-----------------------------------------------
