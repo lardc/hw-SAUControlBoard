@@ -28,6 +28,7 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError);
 void CONTROL_Idle();
 void CONTROL_UpdateWatchDog();
 void CONTROL_Init();
+void CONTROL_SafetyInputs();
 
 // Functions
 void CONTROL_Init()
@@ -48,6 +49,7 @@ void CONTROL_Idle()
 {
 	SELFTEST_Process();
 	CONTROL_SafetyInputs();
+	CONTROL_Indication();
 
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
@@ -118,6 +120,15 @@ void CONTROL_SafetySwitchCheck()
 void CONTROL_SafetyInputs()
 {
 
+}
+// ----------------------------------------
+
+void CONTROL_Indication()
+{
+	LL_LampGreen(DataTable[REG_ST_IND_RED]);
+	LL_LampRed(DataTable[REG_ST_IND_GREEN]);
+
+	DataTable[REG_TEMPERATURE_FLAG] = LL_ReadTemperatureFlag();
 }
 // ----------------------------------------
 

@@ -18,16 +18,20 @@
 #define ACT_BOOT_LOADER_REQUEST					320	// Request reboot to bootloader
 
 // Registers
+//
+#define REG_ST_IND_GREEN						128	// Зеленый индикатор испытания
+#define REG_ST_IND_RED							129	// Красный индикатор испытания
+//
 #define REG_DBG									150	// Отладочный регистр
 //
-#define REG_DEV_STATE							96	// Регистр состояния
-#define REG_FAULT_REASON						97	// Регистр Fault
-#define REG_DISABLE_REASON						98	// Регистр Disable
-#define REG_WARNING								99	// Регистр Warning
-#define REG_PROBLEM								100	// Регистр Problem
-// 101
-#define REG_SELF_TEST_OP_RESULT					102	// Регистр результата самотестирования
-#define REG_SUB_STATE							103	// Регистр вспомогательного состояния
+#define REG_DEV_STATE							192	// Регистр состояния
+#define REG_FAULT_REASON						193	// Регистр Fault
+#define REG_DISABLE_REASON						194	// Регистр Disable
+#define REG_WARNING								195	// Регистр Warning
+#define REG_PROBLEM								196	// Регистр Problem
+#define REG_OP_RESULT							197	// Регистр результата операции
+#define REG_SELF_TEST_OP_RESULT					198	// Регистр результата самотестирования
+#define REG_SUB_STATE							199	// Регистр вспомогательного состояния
 //
 #define REG_TEMPERATURE_FLAG					200	// 0 - безопасная температура, 1 - температура выше безопасного уровня
 //

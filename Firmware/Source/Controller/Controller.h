@@ -38,5 +38,6 @@ void CONTROL_Idle();
 void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_SetDeviceState(DeviceState NewState);
 void CONTROL_SwitchToFault(Int16U Reason);
+void CONTROL_Indication();
 
 #endif // __CONTROLLER_H
