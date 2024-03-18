@@ -7,6 +7,7 @@
 
 // Include
 #include "stdinc.h"
+#include "SelfTest.h"
 
 // Types
 //
@@ -21,16 +22,9 @@ typedef enum __DeviceState
 	DS_InSelfTest		= 6
 } DeviceState;
 
-typedef enum __DeviceSelfTestState
-{
-	STS_None = 0,
-
-} DeviceSelfTestState;
-
 // Variables
 extern volatile Int64U CONTROL_TimeCounter;
 extern volatile DeviceState CONTROL_State;
-extern volatile DeviceSelfTestState CONTROL_SubState;
 
 // Functions
 void CONTROL_Init();

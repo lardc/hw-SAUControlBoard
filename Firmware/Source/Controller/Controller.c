@@ -15,13 +15,11 @@
 #include "BCCIxParams.h"
 #include "DebugActions.h"
 #include "LowLevel.h"
-#include "SelfTest.h"
 
 // Variables
 volatile Int64U CONTROL_TimeCounter = 0;
 Boolean CycleActive = false;
 volatile DeviceState CONTROL_State = DS_InSelfTest;
-volatile DeviceSelfTestState CONTROL_SubState = STS_None;
 
 // Forward functions
 Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError);
@@ -63,9 +61,7 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 		case ACT_SET_ACTIVE:
 			if(CONTROL_State == DS_None)
 			{
-				LL_LampGreen(false);
-				LL_LampRed(true);
-
+				LL_StatusLamp(Red);
 				CONTROL_SetDeviceState(DS_SafetyActive);
 			}
 			else
@@ -75,10 +71,18 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 		case ACT_SET_INACTIVE:
 			if(CONTROL_State == DS_SafetyActive || CONTROL_State == DS_SafetyTrig)
 			{
-				LL_LampGreen(true);
-				LL_LampRed(false);
-
+				LL_StatusLamp(Green);
 				CONTROL_SetDeviceState(DS_None);
+			}
+			else
+				*UserError = ERR_OPERATION_BLOCKED;
+			break;
+
+		case ACT_START_SELF_TEST:
+			if(CONTROL_State != DS_Fault)
+			{
+				CONTROL_SetDeviceState(DS_InSelfTest);
+				SELFTTEST_SetStage(STS_None);
 			}
 			else
 				*UserError = ERR_OPERATION_BLOCKED;
@@ -140,9 +144,7 @@ void CONTROL_SafetyOutputs()
 
 void CONTROL_Indication()
 {
-	LL_LampGreen(DataTable[REG_ST_IND_RED]);
-	LL_LampRed(DataTable[REG_ST_IND_GREEN]);
-
+	LL_StatusLamp(DataTable[REG_STATUS_INDICATION]);
 	DataTable[REG_TEMPERATURE_FLAG] = LL_ReadTemperatureFlag();
 }
 // ----------------------------------------
@@ -151,6 +153,9 @@ void CONTROL_SwitchToFault(Int16U Reason)
 {
 	CONTROL_SetDeviceState(DS_Fault);
 	DataTable[REG_FAULT_REASON] = Reason;
+
+	if(Reason == DF_SELF_TEST)
+		DataTable[REG_SELF_TEST_OP_RESULT] = OPRESULT_FAIL;
 }
 //------------------------------------------
 
@@ -158,13 +163,6 @@ void CONTROL_SetDeviceState(DeviceState NewState)
 {
 	CONTROL_State = NewState;
 	DataTable[REG_DEV_STATE] = NewState;
-}
-//------------------------------------------
-
-void CONTROL_SetDeviceSubState(DeviceSelfTestState NewSubState)
-{
-	CONTROL_SubState = NewSubState;
-	DataTable[REG_SUB_STATE] = NewSubState;
 }
 //------------------------------------------
 

@@ -26,14 +26,14 @@ typedef enum _SafetyLine
 
 typedef enum _ColorLamp
 {
-	Green		= 0,
-	Red			= 1,
-	Yellow		= 2
+	SwitchedOff	= 0,
+	Green		= 1,
+	Red			= 2
 }ColorLamp;
 
 // Functions
 void LL_ToggleBoardLED();
-void LL_SelfTestNum(SelfTestStage Line, bool State);
+void LL_SelfTestNum(DeviceSelfTestStage Stage, bool State);
 void LL_StatusLamp(ColorLamp Color);
 void LL_ToggleSwitchLamp(SwitchLamp Lamp, bool State);
 bool LL_ReadSafetyLine(SafetyLine Line);

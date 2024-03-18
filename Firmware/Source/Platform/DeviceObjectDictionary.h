@@ -32,7 +32,7 @@
 #define REG_PROBLEM								196	// Регистр Problem
 #define REG_OP_RESULT							197	// Регистр результата операции
 #define REG_SELF_TEST_OP_RESULT					198	// Регистр результата самотестирования
-#define REG_SUB_STATE							199	// Регистр вспомогательного состояния
+#define REG_SELF_TEST_STAGE						199	// Регистр стадии самотестирования
 //
 #define REG_TEMPERATURE_FLAG					200	// 0 - безопасная температура, 1 - температура выше безопасного уровня
 //
@@ -52,6 +52,7 @@
 #define DF_NONE
 #define DF_SHORT_OUTPUT1						1	// КЗ на выходе 1
 #define DF_SHORT_OUTPUT2						2	// КЗ на выходе 2
+#define DF_SELF_TEST							3	// Самотестирование не пройдено
 
 //  User Errors
 //
@@ -60,5 +61,10 @@
 #define ERR_OPERATION_BLOCKED					2	//  Операция не может быть выполнена в текущем состоянии устройства
 #define ERR_DEVICE_NOT_READY					3	//  Устройство не готово для смены состояния
 #define ERR_WRONG_PWD							4	//  Неправильный ключ
+
+// Operation results
+#define OPRESULT_NONE					0	// No information or not finished
+#define OPRESULT_OK						1	// Operation was successful
+#define OPRESULT_FAIL					2	// Operation failed
 
 #endif // __DEV_OBJ_DIC_H
