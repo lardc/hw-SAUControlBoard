@@ -47,6 +47,7 @@ void CONTROL_Init()
 void CONTROL_Idle()
 {
 	SELFTEST_Process();
+	CONTROL_SafetyInputs();
 
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
@@ -78,6 +79,37 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 	}
 
 	return true;
+}
+// ----------------------------------------
+
+void CONTROL_SafetySwitchCheck()
+{
+	static Int64U BlinkPeriodCounter = 0;
+
+	if(CONTROL_TimeCounter >= BlinkPeriodCounter)
+	{
+		BlinkPeriodCounter = CONTROL_TimeCounter + TIME_SAFETY_SWITCH_BLINK;
+
+		if(LL_ReadSafetyLine(SF_OptBarierSwitch))
+			LL_ToggleSwitchLamp(Lamp_OptBarierSwitch, true);
+		else
+			LL_ToggleSwitchLamp(Lamp_OptBarierSwitch, false);
+
+		if(LL_ReadSafetyLine(SF_DoorSwitch))
+			LL_ToggleSwitchLamp(Lamp_DoorSwitch, true);
+		else
+			LL_ToggleSwitchLamp(Lamp_DoorSwitch, false);
+
+		if(LL_ReadSafetyLine(SF_InputSwitch))
+			LL_ToggleSwitchLamp(Lamp_InputSwitch, true);
+		else
+			LL_ToggleSwitchLamp(Lamp_InputSwitch, false);
+	}
+}
+
+void CONTROL_SafetyInputs()
+{
+
 }
 // ----------------------------------------
 

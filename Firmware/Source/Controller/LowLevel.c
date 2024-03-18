@@ -24,23 +24,23 @@ void LL_SelfTestNum(SafetyLine Line, bool State)
 
 	switch(Line)
 	{
-		case SF_Line1:
+		case SF_OptBarierSwitch:
 			GPIO_SetState(GPIO_TEST1, State);
 			break;
 
-		case SF_Line2:
+		case SF_DoorSwitch:
 			GPIO_SetState(GPIO_TEST2, State);
 			break;
 
-		case SF_Line3:
+		case SF_InputSwitch:
 			GPIO_SetState(GPIO_TEST3, State);
 			break;
 
-		case SF_Line4:
+		case SF_Out1:
 			GPIO_SetState(GPIO_TEST4, State);
 			break;
 
-		case SF_Line5:
+		case SF_Out2:
 			GPIO_SetState(GPIO_TEST5, State);
 			break;
 
@@ -66,15 +66,15 @@ void LL_ToggleSwitchLamp(SwitchLamp Lamp, bool State)
 {
 	switch(Lamp)
 	{
-		case SW_Lamp1:
+		case Lamp_OptBarierSwitch:
 			(State) ? GPIO_Toggle(GPIO_SW_LAMP1) : GPIO_SetState(GPIO_SW_LAMP1, false);
 			break;
 
-		case SW_Lamp2:
+		case Lamp_DoorSwitch:
 			(State) ? GPIO_Toggle(GPIO_SW_LAMP2) : GPIO_SetState(GPIO_SW_LAMP2, false);
 			break;
 
-		case SW_Lamp3:
+		case Lamp_InputSwitch:
 			(State) ? GPIO_Toggle(GPIO_SW_LAMP3) : GPIO_SetState(GPIO_SW_LAMP3, false);
 			break;
 
@@ -88,23 +88,23 @@ bool LL_ReadSafetyLine(SafetyLine Line)
 {
 	switch(Line)
 	{
-		case SF_Line1:
+		case SF_OptBarierSwitch:
 			return GPIO_GetState(GPIO_S1);
 			break;
 
-		case SF_Line2:
+		case SF_DoorSwitch:
 			return GPIO_GetState(GPIO_S2);
 			break;
 
-		case SF_Line3:
+		case SF_InputSwitch:
 			return GPIO_GetState(GPIO_S3);
 			break;
 
-		case SF_Line4:
+		case SF_Out1:
 			return GPIO_GetState(GPIO_S4);
 			break;
 
-		case SF_Line5:
+		case SF_Out2:
 			return GPIO_GetState(GPIO_S5);
 			break;
 

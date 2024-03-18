@@ -29,6 +29,8 @@ typedef enum __DeviceSelfTestState
 
 // Variables
 extern volatile Int64U CONTROL_TimeCounter;
+extern volatile DeviceState CONTROL_State;
+extern volatile DeviceSelfTestState CONTROL_SubState;
 
 // Functions
 void CONTROL_Init();

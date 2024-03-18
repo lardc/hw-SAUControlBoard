@@ -19,6 +19,7 @@
 #define ADC_RESOLUTION					4095
 //
 #define SAFETY_SWITCH_NUM				3		// Количество выключателей безопасности
+#define TIME_SAFETY_SWITCH_BLINK		250		// Период моргания индикатора выключателя безопасности, мс
 
 
 #endif // __GLOBAL_H

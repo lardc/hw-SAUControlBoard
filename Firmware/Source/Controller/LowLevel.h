@@ -8,18 +8,18 @@
 //
 typedef enum _SwitchLamp
 {
-	SW_Lamp1	= 0,
-	SW_Lamp2	= 1,
-	SW_Lamp3	= 2,
+	Lamp_OptBarierSwitch	= 0,
+	Lamp_DoorSwitch			= 1,
+	Lamp_InputSwitch		= 2,
 }SwitchLamp;
 
 typedef enum _SafetyLine
 {
-	SF_Line1	= 0,
-	SF_Line2	= 1,
-	SF_Line3	= 2,
-	SF_Line4	= 3,
-	SF_Line5	= 4,
+	SF_OptBarierSwitch		= 0,
+	SF_DoorSwitch			= 1,
+	SF_InputSwitch			= 2,
+	SF_Out1					= 3,
+	SF_Out2					= 4,
 }SafetyLine;
 
 // Functions
