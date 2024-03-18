@@ -116,6 +116,12 @@ bool LL_ReadSafetyLine(SafetyLine Line)
 }
 //-----------------------------
 
+bool LL_ReadTemperatureFlag()
+{
+	return GPIO_GetState(GPIO_TEMPERATURE);
+}
+//-----------------------------
+
 float LL_MEASURE_VoltageX(Int16U ADC1Channel)
 {
 	return (float)ADC_Measure(ADC1, ADC1Channel) * ADC_REF_VOLTAGE / ADC_RESOLUTION;

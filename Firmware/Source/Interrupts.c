@@ -58,6 +58,8 @@ void TIM7_IRQHandler()
 			LED_BlinkTimeCounter = 0;
 		}
 
+		DataTable[REG_TEMPERATURE_FLAG] = LL_ReadTemperatureFlag();
+
 		TIM_StatusClear(TIM7);
 	}
 }

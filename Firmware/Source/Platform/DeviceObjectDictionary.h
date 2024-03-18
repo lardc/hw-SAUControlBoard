@@ -29,6 +29,8 @@
 #define REG_SELF_TEST_OP_RESULT					102	// Регистр результата самотестирования
 #define REG_SUB_STATE							103	// Регистр вспомогательного состояния
 //
+#define REG_TEMPERATURE_FLAG					200	// 0 - безопасная температура, 1 - температура выше безопасного уровня
+//
 #define REG_OVERLAP_COUNT_REQ					210	// Overlapping requests via SCCI interface
 #define REG_OVERLAP_COUNT_RESP					211	// Overlapping responses via SCCI interface
 //
