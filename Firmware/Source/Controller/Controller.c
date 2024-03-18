@@ -58,24 +58,32 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 {
 	switch(ActionID)
 	{
-		case ACT_DIAG_SELFTEST_RELAY:
-			DBGACT_Relay();
+		case ACT_SET_ACTIVE:
+			if(CONTROL_State == DS_None)
+			{
+				LL_LampGreen(false);
+				LL_LampRed(true);
+
+				CONTROL_SetDeviceState(DS_SafetyActive);
+			}
+			else
+				*UserError = ERR_OPERATION_BLOCKED;
 			break;
 
-		case ACT_DIAG_SWITCH:
-			DBGACT_Switch();
-			break;
+		case ACT_SET_INACTIVE:
+			if(CONTROL_State == DS_SafetyActive || CONTROL_State == DS_SafetyTrig)
+			{
+				LL_LampGreen(true);
+				LL_LampRed(false);
 
-		case ACT_DIAG_GREEN_LED:
-			DBGACT_LampGreen();
-			break;
-
-		case ACT_DIAG_RED_LED:
-			DBGACT_LampRed();
+				CONTROL_SetDeviceState(DS_None);
+			}
+			else
+				*UserError = ERR_OPERATION_BLOCKED;
 			break;
 
 		default:
-			return false;
+			return DIAG_HandleDiagnosticAction(ActionID, UserError);
 	}
 
 	return true;

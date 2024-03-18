@@ -8,6 +8,9 @@
 #define ACT_DIAG_GREEN_LED						12	// Проверка зеленого индикатора
 #define ACT_DIAG_RED_LED						13	// Проверка красного индикатора
 //
+#define ACT_SET_ACTIVE							100	// Команда активации контура безопасности
+#define ACT_SET_INACTIVE						101	// Команда деактивации контура безопасности
+//
 #define ACT_SAVE_TO_ROM							200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM					201	// Восстановление данных из FLASH
 #define ACT_RESET_TO_DEFAULT					202	// Сброс DataTable в состояние по умолчанию
@@ -26,17 +29,23 @@
 #define REG_SELF_TEST_OP_RESULT					102	// Регистр результата самотестирования
 #define REG_SUB_STATE							103	// Регистр вспомогательного состояния
 //
-
-//
 #define REG_OVERLAP_COUNT_REQ					210	// Overlapping requests via SCCI interface
 #define REG_OVERLAP_COUNT_RESP					211	// Overlapping responses via SCCI interface
 //
 #define REG_MME_CODE							250	// MME code number
-
+//
 #define REG_FWINFO_SLAVE_NID					256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID					257	// Device CAN master node ID (if presented)
 //
 #define REG_FWINFO_STR_LEN						260	// Length of the information string record
 #define REG_FWINFO_STR_BEGIN					261	// Begining of the information string record
+
+//  User Errors
+//
+#define ERR_NONE								0
+#define ERR_CONFIGURATION_LOCKED				1	//  Устройство защищено от записи
+#define ERR_OPERATION_BLOCKED					2	//  Операция не может быть выполнена в текущем состоянии устройства
+#define ERR_DEVICE_NOT_READY					3	//  Устройство не готово для смены состояния
+#define ERR_WRONG_PWD							4	//  Неправильный ключ
 
 #endif // __DEV_OBJ_DIC_H
