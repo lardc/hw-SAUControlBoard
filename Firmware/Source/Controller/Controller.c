@@ -27,6 +27,7 @@ void CONTROL_Idle();
 void CONTROL_UpdateWatchDog();
 void CONTROL_Init();
 void CONTROL_SafetyOutputs();
+void CONTROL_SafetySwitchCheck();
 
 // Functions
 void CONTROL_Init()
@@ -47,7 +48,7 @@ void CONTROL_Idle()
 {
 	SELFTEST_Process();
 	CONTROL_SafetyOutputs();
-	CONTROL_Indication();
+	CONTROL_SafetySwitchCheck();
 
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
@@ -144,8 +145,25 @@ void CONTROL_SafetyOutputs()
 
 void CONTROL_Indication()
 {
-	LL_StatusLamp(DataTable[REG_STATUS_INDICATION]);
-	DataTable[REG_TEMPERATURE_FLAG] = LL_ReadTemperatureFlag();
+	static bool ToggleState = false;
+	static Int64U BlinkCounter = 0;
+
+	if(CONTROL_State != DS_InSelfTest)
+	{
+		if(CONTROL_State == DS_Fault)
+		{
+			if(++BlinkCounter > TIME_FAULT_LED_BLINK)
+			{
+				ToggleState = ~ToggleState;
+				LL_StatusLamp(ToggleState);
+				BlinkCounter = 0;
+			}
+		}
+		else
+			LL_StatusLamp(DataTable[REG_STATUS_INDICATION]);
+
+		DataTable[REG_TEMPERATURE_FLAG] = LL_ReadTemperatureFlag();
+	}
 }
 // ----------------------------------------
 

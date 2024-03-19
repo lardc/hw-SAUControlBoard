@@ -21,7 +21,7 @@
 
 // Registers
 //
-#define REG_STATUS_INDICATION					128	// 0 - зеленый, 1 - красный
+#define REG_STATUS_INDICATION					128	// 0 - выкл, 1 - красный, 2 - зеленый
 //
 #define REG_DBG									150	// Отладочный регистр
 //

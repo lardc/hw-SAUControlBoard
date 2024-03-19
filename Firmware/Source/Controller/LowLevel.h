@@ -27,8 +27,8 @@ typedef enum _SafetyLine
 typedef enum _ColorLamp
 {
 	SwitchedOff	= 0,
-	Green		= 1,
-	Red			= 2
+	Red			= 1,
+	Green		= 2
 }ColorLamp;
 
 // Functions
