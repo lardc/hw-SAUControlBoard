@@ -105,9 +105,9 @@ void CONTROL_SafetySwitchCheck()
 	{
 		BlinkPeriodCounter = CONTROL_TimeCounter + TIME_SAFETY_SWITCH_BLINK;
 
-		LL_ToggleSwitchLamp(Lamp_OptBarierSwitch, LL_ReadSafetyLine(SF_OptBarierSwitch));
-		LL_ToggleSwitchLamp(Lamp_DoorSwitch, LL_ReadSafetyLine(SF_DoorSwitch));
-		LL_ToggleSwitchLamp(Lamp_InputSwitch, LL_ReadSafetyLine(SF_InputSwitch));
+		LL_ToggleSwitchLamp(LID_OptBarier, LL_ReadSafetyLine(LID_OptBarier));
+		LL_ToggleSwitchLamp(LID_Door, LL_ReadSafetyLine(LID_Door));
+		LL_ToggleSwitchLamp(LID_Input, LL_ReadSafetyLine(LID_Input));
 	}
 }
 // ----------------------------------------
@@ -116,11 +116,11 @@ void CONTROL_SafetyOutputs()
 {
 	if(CONTROL_State != DS_InSelfTest)
 	{
-		if(LL_ReadSafetyLine(SF_Out1) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT1) >= OUTPUT_THRESHOLD_VOLTAGE)
+		if(LL_ReadSafetyLine(LID_Out1) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT1) >= OUTPUT_THRESHOLD_VOLTAGE)
 			CONTROL_SwitchToFault(DF_SHORT_OUTPUT1);
-		else if(LL_ReadSafetyLine(SF_Out2) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT2) >= OUTPUT_THRESHOLD_VOLTAGE)
+		else if(LL_ReadSafetyLine(LID_Out2) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT2) >= OUTPUT_THRESHOLD_VOLTAGE)
 				CONTROL_SwitchToFault(DF_SHORT_OUTPUT2);
-		else if((!LL_ReadSafetyLine(SF_Out1) || !LL_ReadSafetyLine(SF_Out2)) && CONTROL_State == DS_SafetyActive)
+		else if((!LL_ReadSafetyLine(LID_Out1) || !LL_ReadSafetyLine(LID_Out2)) && CONTROL_State == DS_SafetyActive)
 				CONTROL_SwitchToFault(DS_SafetyTrig);
 	}
 }

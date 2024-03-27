@@ -12,8 +12,8 @@
 
 // Definition
 //
-#define TIME_STAGE_DELAY			500		// мс
-#define TIME_STAGE_CHECK_DELAY		1000	// мкс
+#define TIME_STAGE_DELAY			500		// пїЅпїЅ
+#define TIME_STAGE_CHECK_DELAY		1000	// пїЅпїЅпїЅ
 
 // Variables
 //
@@ -107,12 +107,12 @@ bool SELFTEST_IsOuputsCorrect(DeviceSelfTestStage Stage)
 		case STS_STOP:
 		case STS_Input2:
 		case STS_Door:
-			Result = (!LL_ReadSafetyLine(SF_Out1) && !LL_ReadSafetyLine(SF_Out2)) ? true : false;
+			Result = (!LL_ReadSafetyLine(LID_Out1) && !LL_ReadSafetyLine(LID_Out2)) ? true : false;
 			break;
 
 		case STS_OptBarier:
 		case STS_Input1:
-			Result = (!LL_ReadSafetyLine(SF_Out1) && LL_ReadSafetyLine(SF_Out2)) ? true : false;
+			Result = (!LL_ReadSafetyLine(LID_Out1) && LL_ReadSafetyLine(LID_Out2)) ? true : false;
 			break;
 
 		default:
@@ -125,7 +125,7 @@ bool SELFTEST_IsOuputsCorrect(DeviceSelfTestStage Stage)
 
 void SELFTEST_StageProcess(DeviceSelfTestStage Stage)
 {
-	if(LL_ReadSafetyLine(SF_Out1) && LL_ReadSafetyLine(SF_Out1))
+	if(LL_ReadSafetyLine(LID_Out1) && LL_ReadSafetyLine(LID_Out2))
 	{
 		if(LL_MEASURE_OutputVoltage(ADC1_OUTPUT1) >= OUTPUT_THRESHOLD_VOLTAGE)
 			CONTROL_SwitchToFault(DF_SHORT_OUTPUT1);

@@ -8,21 +8,14 @@
 
 // Types
 //
-typedef enum _SwitchLamp
+typedef enum _LineID
 {
-	Lamp_OptBarierSwitch	= 0,
-	Lamp_DoorSwitch			= 1,
-	Lamp_InputSwitch		= 2,
-}SwitchLamp;
-
-typedef enum _SafetyLine
-{
-	SF_OptBarierSwitch		= 0,
-	SF_DoorSwitch			= 1,
-	SF_InputSwitch			= 2,
-	SF_Out1					= 3,
-	SF_Out2					= 4,
-}SafetyLine;
+	LID_OptBarier	= 0,
+	LID_Door		= 1,
+	LID_Input		= 2,
+	LID_Out1		= 3,
+	LID_Out2		= 4,
+} LineID;
 
 typedef enum _ColorLamp
 {
@@ -35,8 +28,8 @@ typedef enum _ColorLamp
 void LL_ToggleBoardLED();
 void LL_SelfTestNum(DeviceSelfTestStage Stage, bool State);
 void LL_StatusLamp(ColorLamp Color);
-void LL_ToggleSwitchLamp(SwitchLamp Lamp, bool State);
-bool LL_ReadSafetyLine(SafetyLine Line);
+void LL_ToggleSwitchLamp(LineID Lamp, bool State);
+bool LL_ReadSafetyLine(LineID Line);
 float LL_MEASURE_OutputVoltage(Int16U ADC1Channel);
 bool LL_ReadTemperatureFlag();
 

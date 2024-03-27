@@ -72,19 +72,19 @@ void LL_StatusLamp(ColorLamp Color)
 }
 //-----------------------------
 
-void LL_ToggleSwitchLamp(SwitchLamp Lamp, bool State)
+void LL_ToggleSwitchLamp(LineID Lamp, bool State)
 {
 	switch(Lamp)
 	{
-		case Lamp_OptBarierSwitch:
+		case LID_OptBarier:
 			(State) ? GPIO_Toggle(GPIO_SW_LAMP1) : GPIO_SetState(GPIO_SW_LAMP1, false);
 			break;
 
-		case Lamp_DoorSwitch:
+		case LID_Door:
 			(State) ? GPIO_Toggle(GPIO_SW_LAMP2) : GPIO_SetState(GPIO_SW_LAMP2, false);
 			break;
 
-		case Lamp_InputSwitch:
+		case LID_Input:
 			(State) ? GPIO_Toggle(GPIO_SW_LAMP3) : GPIO_SetState(GPIO_SW_LAMP3, false);
 			break;
 
@@ -94,27 +94,27 @@ void LL_ToggleSwitchLamp(SwitchLamp Lamp, bool State)
 }
 //-----------------------------
 
-bool LL_ReadSafetyLine(SafetyLine Line)
+bool LL_ReadSafetyLine(LineID Line)
 {
 	switch(Line)
 	{
-		case SF_OptBarierSwitch:
+		case LID_OptBarier:
 			return GPIO_GetState(GPIO_S1);
 			break;
 
-		case SF_DoorSwitch:
+		case LID_Door:
 			return GPIO_GetState(GPIO_S2);
 			break;
 
-		case SF_InputSwitch:
+		case LID_Input:
 			return GPIO_GetState(GPIO_S3);
 			break;
 
-		case SF_Out1:
+		case LID_Out1:
 			return GPIO_GetState(GPIO_S4);
 			break;
 
-		case SF_Out2:
+		case LID_Out2:
 			return GPIO_GetState(GPIO_S5);
 			break;
 
