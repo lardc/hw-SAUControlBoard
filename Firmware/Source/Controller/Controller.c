@@ -105,20 +105,9 @@ void CONTROL_SafetySwitchCheck()
 	{
 		BlinkPeriodCounter = CONTROL_TimeCounter + TIME_SAFETY_SWITCH_BLINK;
 
-		if(LL_ReadSafetyLine(SF_OptBarierSwitch))
-			LL_ToggleSwitchLamp(Lamp_OptBarierSwitch, true);
-		else
-			LL_ToggleSwitchLamp(Lamp_OptBarierSwitch, false);
-
-		if(LL_ReadSafetyLine(SF_DoorSwitch))
-			LL_ToggleSwitchLamp(Lamp_DoorSwitch, true);
-		else
-			LL_ToggleSwitchLamp(Lamp_DoorSwitch, false);
-
-		if(LL_ReadSafetyLine(SF_InputSwitch))
-			LL_ToggleSwitchLamp(Lamp_InputSwitch, true);
-		else
-			LL_ToggleSwitchLamp(Lamp_InputSwitch, false);
+		LL_ToggleSwitchLamp(Lamp_OptBarierSwitch, LL_ReadSafetyLine(SF_OptBarierSwitch));
+		LL_ToggleSwitchLamp(Lamp_DoorSwitch, LL_ReadSafetyLine(SF_DoorSwitch));
+		LL_ToggleSwitchLamp(Lamp_InputSwitch, LL_ReadSafetyLine(SF_InputSwitch));
 	}
 }
 // ----------------------------------------
