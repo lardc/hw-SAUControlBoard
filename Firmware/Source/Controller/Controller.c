@@ -129,16 +129,10 @@ void CONTROL_SafetyOutputs()
 	{
 		if(LL_ReadSafetyLine(SF_Out1) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT1) >= OUTPUT_THRESHOLD_VOLTAGE)
 			CONTROL_SwitchToFault(DF_SHORT_OUTPUT1);
-		else
-		{
-			if(LL_ReadSafetyLine(SF_Out2) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT2) >= OUTPUT_THRESHOLD_VOLTAGE)
+		else if(LL_ReadSafetyLine(SF_Out2) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT2) >= OUTPUT_THRESHOLD_VOLTAGE)
 				CONTROL_SwitchToFault(DF_SHORT_OUTPUT2);
-			else
-			{
-				if((!LL_ReadSafetyLine(SF_Out1) || !LL_ReadSafetyLine(SF_Out2)) && CONTROL_State == DS_SafetyActive)
-					CONTROL_SwitchToFault(DS_SafetyTrig);
-			}
-		}
+		else if((!LL_ReadSafetyLine(SF_Out1) || !LL_ReadSafetyLine(SF_Out2)) && CONTROL_State == DS_SafetyActive)
+				CONTROL_SwitchToFault(DS_SafetyTrig);
 	}
 }
 // ----------------------------------------
