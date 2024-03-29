@@ -1,4 +1,4 @@
-// Header
+﻿// Header
 //
 #include "SelfTest.h"
 
@@ -12,8 +12,8 @@
 
 // Definition
 //
-#define TIME_STAGE_DELAY			500		// ��
-#define TIME_STAGE_CHECK_DELAY		1000	// ���
+#define TIME_STAGE_DELAY			500		// мс
+#define TIME_STAGE_CHECK_DELAY		1000	// мкс
 
 // Variables
 //

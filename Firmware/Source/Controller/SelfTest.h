@@ -1,4 +1,4 @@
-#ifndef CONTROLLER_SELFTEST_H_
+﻿#ifndef CONTROLLER_SELFTEST_H_
 #define CONTROLLER_SELFTEST_H_
 
 // Types
