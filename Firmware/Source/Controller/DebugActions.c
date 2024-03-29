@@ -9,6 +9,36 @@
 #include "Global.h"
 
 // Functions
+//
+bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
+{
+	switch(ActionID)
+	{
+		case ACT_DIAG_SELFTEST_RELAY:
+			DBGACT_Relay();
+			break;
+
+		case ACT_DIAG_SWITCH:
+			DBGACT_Switch();
+			break;
+
+		case ACT_DIAG_GREEN_LED:
+			DBGACT_LampGreen();
+			break;
+
+		case ACT_DIAG_RED_LED:
+			DBGACT_LampRed();
+			break;
+
+		default:
+			return false;
+			break;
+	}
+
+	return true;
+}
+//-----------------------------------------------
+
 void DBGACT_Relay()
 {
 	LL_SelfTestNum(DataTable[REG_DBG], true);
@@ -31,16 +61,12 @@ void DBGACT_Switch()
 
 void DBGACT_LampGreen()
 {
-	LL_LampGreen(true);
-	DELAY_US(500000);
-	LL_LampGreen(false);
+	LL_StatusLamp(Green);
 }
 //-----------------------------------------------
 
 void DBGACT_LampRed()
 {
-	LL_LampRed(true);
-	DELAY_US(500000);
-	LL_LampRed(false);
+	LL_StatusLamp(Red);
 }
 //-----------------------------------------------
