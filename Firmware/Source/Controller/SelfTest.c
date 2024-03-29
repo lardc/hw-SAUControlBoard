@@ -107,12 +107,12 @@ bool SELFTEST_IsOuputsCorrect(DeviceSelfTestStage Stage)
 		case STS_STOP:
 		case STS_Input2:
 		case STS_Door:
-			Result = (!LL_ReadSafetyLine(LID_Out1) && !LL_ReadSafetyLine(LID_Out2)) ? true : false;
+			Result = !LL_ReadSafetyLine(LID_Out1) && !LL_ReadSafetyLine(LID_Out2);
 			break;
 
 		case STS_OptBarier:
 		case STS_Input1:
-			Result = (!LL_ReadSafetyLine(LID_Out1) && LL_ReadSafetyLine(LID_Out2)) ? true : false;
+			Result = !LL_ReadSafetyLine(LID_Out1) && LL_ReadSafetyLine(LID_Out2);
 			break;
 
 		default:
