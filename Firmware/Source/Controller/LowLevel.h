@@ -20,8 +20,8 @@ typedef enum _LineID
 typedef enum _ColorLamp
 {
 	SwitchedOff	= 0,
-	Red			= 1,
-	Green		= 2
+	Green		= 1,
+	Red			= 2
 }ColorLamp;
 
 // Functions
