@@ -89,6 +89,14 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 				*UserError = ERR_OPERATION_BLOCKED;
 			break;
 
+		case ACT_CLR_FAULT:
+			if(CONTROL_State == DS_Fault)
+			{
+				CONTROL_SetDeviceState(DS_None);
+				DataTable[REG_FAULT_REASON] = DF_NONE;
+			}
+			break;
+
 		default:
 			return DIAG_HandleDiagnosticAction(ActionID, UserError);
 	}
@@ -121,32 +129,29 @@ void CONTROL_SafetyOutputs()
 		else if(LL_ReadSafetyLine(LID_Out2) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT2) >= OUTPUT_THRESHOLD_VOLTAGE)
 				CONTROL_SwitchToFault(DF_SHORT_OUTPUT2);
 		else if((!LL_ReadSafetyLine(LID_Out1) || !LL_ReadSafetyLine(LID_Out2)) && CONTROL_State == DS_SafetyActive)
-				CONTROL_SwitchToFault(DS_SafetyTrig);
+				CONTROL_SetDeviceState(DS_SafetyTrig);
 	}
 }
 // ----------------------------------------
 
 void CONTROL_Indication()
 {
-	static bool ToggleState = false;
+	static ColorLamp ToggleState = false;
 	static Int64U BlinkCounter = 0;
 
-	if(CONTROL_State != DS_InSelfTest)
+	if(CONTROL_State == DS_Fault)
 	{
-		if(CONTROL_State == DS_Fault)
+		if(++BlinkCounter > TIME_FAULT_LED_BLINK)
 		{
-			if(++BlinkCounter > TIME_FAULT_LED_BLINK)
-			{
-				ToggleState = ~ToggleState;
-				LL_StatusLamp(ToggleState);
-				BlinkCounter = 0;
-			}
+			ToggleState = (ToggleState == SwitchedOff) ? Red : SwitchedOff;
+			LL_StatusLamp(ToggleState);
+			BlinkCounter = 0;
 		}
-		else
+	}
+	else if(CONTROL_State != DS_InSelfTest)
 			LL_StatusLamp(DataTable[REG_STATUS_INDICATION]);
 
-		DataTable[REG_TEMPERATURE_FLAG] = LL_ReadTemperatureFlag();
-	}
+	DataTable[REG_TEMPERATURE_FLAG] = LL_ReadTemperatureFlag();
 }
 // ----------------------------------------
 

@@ -3,6 +3,8 @@
 
 // Commands
 
+#define ACT_CLR_FAULT							3	// Очистка ошибок
+//
 #define ACT_DIAG_SELFTEST_RELAY					10	// Проверка реле самодиагностики
 #define ACT_DIAG_SWITCH							11	// Проверка выключателей безопасности
 #define ACT_DIAG_GREEN_LED						12	// Проверка зеленого индикатора
@@ -49,7 +51,7 @@
 
 // Fault and disable codes
 //
-#define DF_NONE
+#define DF_NONE									0
 #define DF_SHORT_OUTPUT1						1	// КЗ на выходе 1
 #define DF_SHORT_OUTPUT2						2	// КЗ на выходе 2
 #define DF_SELF_TEST							3	// Самотестирование не пройдено

@@ -5,6 +5,9 @@
 // Header
 #include "Constraints.h"
 
+// Includes
+#include "LowLevel.h"
+
 // Constants
 //
 const TableItemConstraint Constraint[DATA_TABLE_WP_START] = {
@@ -136,7 +139,7 @@ const TableItemConstraint Constraint[DATA_TABLE_WP_START] = {
 		{0, 0, 0},																	// 125
 		{0, 0, 0},																	// 126
 		{0, 0, 0},																	// 127
-		{0, 0, 0},																	// 128
+		{SwitchedOff, Red, SwitchedOff},											// 128
 		{0, 0, 0},																	// 129
 		{0, 0, 0},																	// 130
 		{0, 0, 0},																	// 131
