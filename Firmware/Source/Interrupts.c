@@ -23,15 +23,15 @@ void USART1_IRQHandler()
 }
 //-----------------------------------------
 
-void USART2_IRQHandler()
+void USART3_IRQHandler()
 {
-	if(USARTx_RecieveCheck(USART2))
+	if(USARTx_RecieveCheck(USART3))
 	{
-		USARTx_RegisterToFIFO(USART2);
-		USARTx_RecieveFlagClear(USART2);
+		USARTx_RegisterToFIFO(USART3);
+		USARTx_RecieveFlagClear(USART3);
 	}
 	else
-		USARTx_OverrunFlagClear(USART2);
+		USARTx_OverrunFlagClear(USART3);
 }
 //-----------------------------------------
 
