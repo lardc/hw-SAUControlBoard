@@ -23,6 +23,8 @@
 
 // Registers
 //
+#define REG_USE_OPTICAL_BARRIER					0	// 0 - барьер не установлен, 1 - барер установлен в КИП СПП
+//
 #define REG_STATUS_INDICATION					128	// 0 - выкл, 1 - зеленый, 2 - красный
 //
 #define REG_DBG									150	// Отладочный регистр

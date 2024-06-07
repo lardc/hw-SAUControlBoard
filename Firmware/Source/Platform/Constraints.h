@@ -6,6 +6,10 @@
 #include "DataTable.h"
 #include "Global.h"
 
+// Definition
+#define NO		0
+#define YES		1
+
 // Types
 typedef struct __TableItemConstraint
 {
