@@ -16,11 +16,7 @@ void LL_ToggleBoardLED()
 
 void LL_SelfTestNum(DeviceSelfTestStage Stage, bool State)
 {
-	GPIO_SetState(GPIO_TEST1, false);
-	GPIO_SetState(GPIO_TEST2, false);
-	GPIO_SetState(GPIO_TEST3, false);
-	GPIO_SetState(GPIO_TEST4, false);
-	GPIO_SetState(GPIO_TEST5, false);
+	LL_SwitchInputRelays(false);
 
 	switch(Stage)
 	{
@@ -135,5 +131,15 @@ bool LL_ReadTemperatureFlag()
 float LL_MEASURE_OutputVoltage(Int16U ADC1Channel)
 {
 	return (float)ADC_Measure(ADC1, ADC1Channel) * ADC_REF_VOLTAGE / ADC_RESOLUTION;
+}
+//------------------------------------------------------------------------------
+
+void LL_SwitchInputRelays(bool State)
+{
+	GPIO_SetState(GPIO_TEST1, State);
+	GPIO_SetState(GPIO_TEST2, State);
+	GPIO_SetState(GPIO_TEST3, State);
+	GPIO_SetState(GPIO_TEST4, State);
+	GPIO_SetState(GPIO_TEST5, State);
 }
 //------------------------------------------------------------------------------

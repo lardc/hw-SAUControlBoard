@@ -32,5 +32,6 @@ void LL_ToggleSwitchLamp(LineID Lamp, bool State);
 bool LL_ReadSafetyLine(LineID Line);
 float LL_MEASURE_OutputVoltage(Int16U ADC1Channel);
 bool LL_ReadTemperatureFlag();
+void LL_SwitchInputRelays(bool State);
 
 #endif //__LOWLEVEL_H
