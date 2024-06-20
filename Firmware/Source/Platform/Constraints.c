@@ -12,7 +12,7 @@
 //
 const TableItemConstraint Constraint[DATA_TABLE_WP_START] = {
 		{NO, YES, YES},																// 0
-		{0, 0, 0},																	// 1
+		{NO, YES, YES},																// 1
 		{0, 0, 0},																	// 2
 		{0, 0, 0},																	// 3
 		{0, 0, 0},																	// 4

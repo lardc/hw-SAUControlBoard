@@ -135,8 +135,12 @@ void CONTROL_Safety()
 		LL_SwitchInputRelays(false);
 
 		if((!LL_ReadSafetyLine(LID_Out1) || !LL_ReadSafetyLine(LID_Out2)) && CONTROL_State == DS_SafetyActive)
-			CONTROL_SetDeviceState(DS_SafetyTrig);
-
+		{
+			if( DataTable[REG_USE_TRIG])
+				CONTROL_SetDeviceState(DS_SafetyTrig);
+			else
+				CONTROL_SetDeviceState(DS_SafetyActive);
+		}
 		if(CONTROL_TimeCounter >= CONTROL_OuputCheckDelayCounter)
 		{
 			CONTROL_OutputCheck(LID_Out1);
