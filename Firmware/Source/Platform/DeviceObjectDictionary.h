@@ -63,8 +63,8 @@
 #define ERR_WRONG_PWD							4	//  Неправильный ключ
 
 // Operation results
-#define OPRESULT_NONE					0	// No information or not finished
-#define OPRESULT_OK						1	// Operation was successful
-#define OPRESULT_FAIL					2	// Operation failed
+#define OPRESULT_NONE							0	// No information or not finished
+#define OPRESULT_OK								1	// Operation was successful
+#define OPRESULT_FAIL							2	// Operation failed
 
 #endif // __DEV_OBJ_DIC_H
