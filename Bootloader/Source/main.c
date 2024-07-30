@@ -75,7 +75,7 @@ void ConfigGPIO()
 	GPIO_AltFn(GPIOB, Pin_10, AltFn_7);
 
 	GPIO_Config(GPIOB, Pin_11, AltFn, PushPull, HighSpeed, NoPull); //PB11(USART3 RX)
-	GPIO_AltFn(GPIOB, Pin_10, AltFn_7);
+	GPIO_AltFn(GPIOB, Pin_11, AltFn_7);
 }
 //--------------------------------------------
 

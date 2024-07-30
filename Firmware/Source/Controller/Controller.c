@@ -16,18 +16,23 @@
 #include "DebugActions.h"
 #include "LowLevel.h"
 
+// Definitions
+#define OUTPUT_CHECK_DELAY			500		// мс
+
 // Variables
 volatile Int64U CONTROL_TimeCounter = 0;
 Boolean CycleActive = false;
-volatile DeviceState CONTROL_State = DS_InSelfTest;
+volatile DeviceState CONTROL_State = DS_None;
+Int64U CONTROL_OuputCheckDelayCounter = 0;
 
 // Forward functions
 Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError);
 void CONTROL_Idle();
 void CONTROL_UpdateWatchDog();
 void CONTROL_Init();
-void CONTROL_SafetyOutputs();
+void CONTROL_Safety();
 void CONTROL_SafetySwitchCheck();
+void CONTROL_OutputCheck(LineID Line);
 
 // Functions
 void CONTROL_Init()
@@ -47,7 +52,7 @@ void CONTROL_Init()
 void CONTROL_Idle()
 {
 	SELFTEST_Process();
-	CONTROL_SafetyOutputs();
+	CONTROL_Safety();
 	CONTROL_SafetySwitchCheck();
 
 	DEVPROFILE_ProcessRequests();
@@ -89,6 +94,17 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 				*UserError = ERR_OPERATION_BLOCKED;
 			break;
 
+		case ACT_CLR_FAULT:
+			if(CONTROL_State == DS_Fault)
+			{
+				CONTROL_OuputCheckDelayCounter = OUTPUT_CHECK_DELAY;
+				DataTable[REG_FAULT_REASON] = DF_NONE;
+
+				CONTROL_SetDeviceState(DS_InSelfTest);
+				SELFTTEST_SetStage(STS_None);
+			}
+			break;
+
 		default:
 			return DIAG_HandleDiagnosticAction(ActionID, UserError);
 	}
@@ -112,41 +128,76 @@ void CONTROL_SafetySwitchCheck()
 }
 // ----------------------------------------
 
-void CONTROL_SafetyOutputs()
+void CONTROL_Safety()
 {
-	if(CONTROL_State != DS_InSelfTest)
+	if(CONTROL_State != DS_InSelfTest && CONTROL_State != DS_Fault)
 	{
-		if(LL_ReadSafetyLine(LID_Out1) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT1) >= OUTPUT_THRESHOLD_VOLTAGE)
-			CONTROL_SwitchToFault(DF_SHORT_OUTPUT1);
-		else if(LL_ReadSafetyLine(LID_Out2) && LL_MEASURE_OutputVoltage(ADC1_OUTPUT2) >= OUTPUT_THRESHOLD_VOLTAGE)
-				CONTROL_SwitchToFault(DF_SHORT_OUTPUT2);
-		else if((!LL_ReadSafetyLine(LID_Out1) || !LL_ReadSafetyLine(LID_Out2)) && CONTROL_State == DS_SafetyActive)
-				CONTROL_SwitchToFault(DS_SafetyTrig);
+		LL_SwitchInputRelays(false);
+
+		if((!LL_ReadSafetyLine(LID_Out1) || !LL_ReadSafetyLine(LID_Out2)) && CONTROL_State == DS_SafetyActive)
+		{
+			if( DataTable[REG_USE_TRIG])
+				CONTROL_SetDeviceState(DS_SafetyTrig);
+			else
+				CONTROL_SetDeviceState(DS_SafetyActive);
+		}
+		if(CONTROL_TimeCounter >= CONTROL_OuputCheckDelayCounter)
+		{
+			CONTROL_OutputCheck(LID_Out1);
+			CONTROL_OutputCheck(LID_Out2);
+		}
+	}
+}
+// ----------------------------------------
+
+void CONTROL_OutputCheck(LineID Line)
+{
+	Int16U ADCChannel, Fault;
+
+	switch(Line)
+	{
+		default:
+		case LID_Out1:
+			ADCChannel = ADC1_OUTPUT1;
+			Fault = DF_SHORT_OUTPUT1;
+			break;
+
+		case LID_Out2:
+			ADCChannel = ADC1_OUTPUT2;
+			Fault = DF_SHORT_OUTPUT2;
+			break;
+	}
+
+	if(LL_ReadSafetyLine(Line))
+	{
+		DELAY_MS(1);
+		if(LL_ReadSafetyLine(Line) && LL_MEASURE_OutputVoltage(ADCChannel) >= OUTPUT_THRESHOLD_VOLTAGE)
+		{
+			LL_SwitchInputRelays(true);
+			CONTROL_SwitchToFault(Fault);
+		}
 	}
 }
 // ----------------------------------------
 
 void CONTROL_Indication()
 {
-	static bool ToggleState = false;
+	static ColorLamp ToggleState = false;
 	static Int64U BlinkCounter = 0;
 
-	if(CONTROL_State != DS_InSelfTest)
+	if(CONTROL_State == DS_Fault)
 	{
-		if(CONTROL_State == DS_Fault)
+		if(++BlinkCounter > TIME_FAULT_LED_BLINK)
 		{
-			if(++BlinkCounter > TIME_FAULT_LED_BLINK)
-			{
-				ToggleState = ~ToggleState;
-				LL_StatusLamp(ToggleState);
-				BlinkCounter = 0;
-			}
+			ToggleState = (ToggleState == SwitchedOff) ? Red : SwitchedOff;
+			LL_StatusLamp(ToggleState);
+			BlinkCounter = 0;
 		}
-		else
+	}
+	else if(CONTROL_State != DS_InSelfTest)
 			LL_StatusLamp(DataTable[REG_STATUS_INDICATION]);
 
-		DataTable[REG_TEMPERATURE_FLAG] = LL_ReadTemperatureFlag();
-	}
+	DataTable[REG_TEMPERATURE_FLAG] = LL_ReadTemperatureFlag();
 }
 // ----------------------------------------
 

@@ -3,6 +3,8 @@
 
 // Commands
 
+#define ACT_CLR_FAULT							3	// Очистка ошибок
+//
 #define ACT_DIAG_SELFTEST_RELAY					10	// Проверка реле самодиагностики
 #define ACT_DIAG_SWITCH							11	// Проверка выключателей безопасности
 #define ACT_DIAG_GREEN_LED						12	// Проверка зеленого индикатора
@@ -21,7 +23,10 @@
 
 // Registers
 //
-#define REG_STATUS_INDICATION					128	// 0 - выкл, 1 - красный, 2 - зеленый
+#define REG_USE_OPTICAL_BARRIER					0	// 0 - барьер не установлен, 1 - барер установлен в КИП СПП
+#define REG_USE_TRIG							1	// 0 - без активации состояния безопасности, 1 - с активацией состояния безопасности
+//
+#define REG_STATUS_INDICATION					128	// 0 - выкл, 1 - зеленый, 2 - красный
 //
 #define REG_DBG									150	// Отладочный регистр
 //
@@ -49,7 +54,7 @@
 
 // Fault and disable codes
 //
-#define DF_NONE
+#define DF_NONE									0
 #define DF_SHORT_OUTPUT1						1	// КЗ на выходе 1
 #define DF_SHORT_OUTPUT2						2	// КЗ на выходе 2
 #define DF_SELF_TEST							3	// Самотестирование не пройдено

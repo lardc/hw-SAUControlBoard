@@ -21,7 +21,7 @@
 #define SAFETY_SWITCH_NUM				3		// Количество выключателей безопасности
 #define TIME_SAFETY_SWITCH_BLINK		250		// Период моргания индикатора выключателя безопасности, мс
 #define OUTPUT_THRESHOLD_VOLTAGE		2000	// Уровень порогового напряжения на выходах безопасности
-#define TIME_FAULT_LED_BLINK			500		// Период моргания красного индикатора в состоянии Fault
+#define TIME_FAULT_LED_BLINK			250		// Период моргания красного индикатора в состоянии Fault
 
 
 #endif // __GLOBAL_H

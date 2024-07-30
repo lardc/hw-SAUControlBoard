@@ -1,4 +1,4 @@
-// Header
+﻿// Header
 //
 #include "SelfTest.h"
 
@@ -12,8 +12,8 @@
 
 // Definition
 //
-#define TIME_STAGE_DELAY			500		// ��
-#define TIME_STAGE_CHECK_DELAY		1000	// ���
+#define TIME_STAGE_DELAY			500		// мс
+#define TIME_STAGE_CHECK_DELAY		100		// мс
 
 // Variables
 //
@@ -38,7 +38,10 @@ void SELFTEST_Process()
 		switch(SELFTEST_Stage)
 		{
 			case STS_None:
-				SELFTTEST_SetStage(STS_OptBarier);
+				LL_SwitchInputRelays(false);
+				DELAY_MS(TIME_STAGE_DELAY);
+
+				SELFTTEST_SetStage((DataTable[REG_USE_OPTICAL_BARRIER]) ? STS_OptBarier : STS_Door);
 				break;
 
 			case STS_OptBarier:
@@ -89,7 +92,7 @@ void SELFTEST_Process()
 				DataTable[REG_SELF_TEST_OP_RESULT] = OPRESULT_OK;
 				SELFTTEST_SetStage(STS_None);
 				LL_StatusLamp(Green);
-				CONTROL_State = DS_None;
+				CONTROL_SetDeviceState(DS_None);
 				break;
 		}
 
@@ -107,12 +110,12 @@ bool SELFTEST_IsOuputsCorrect(DeviceSelfTestStage Stage)
 		case STS_STOP:
 		case STS_Input2:
 		case STS_Door:
-			Result = (!LL_ReadSafetyLine(LID_Out1) && !LL_ReadSafetyLine(LID_Out2)) ? true : false;
+			Result = !LL_ReadSafetyLine(LID_Out1) && !LL_ReadSafetyLine(LID_Out2);
 			break;
 
 		case STS_OptBarier:
 		case STS_Input1:
-			Result = (!LL_ReadSafetyLine(LID_Out1) && LL_ReadSafetyLine(LID_Out2)) ? true : false;
+			Result = !LL_ReadSafetyLine(LID_Out1) && LL_ReadSafetyLine(LID_Out2);
 			break;
 
 		default:
@@ -140,7 +143,7 @@ void SELFTEST_StageProcess(DeviceSelfTestStage Stage)
 				CurrentStage = Stage;
 				DataTable[REG_SELF_TEST_STAGE] = Stage;
 
-				DELAY_US(TIME_STAGE_CHECK_DELAY);
+				DELAY_MS(TIME_STAGE_CHECK_DELAY);
 				SELFTTEST_SetStage(STS_CheckOutputs);
 			}
 		}
