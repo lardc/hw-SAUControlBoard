@@ -21,7 +21,7 @@
 
 // Variables
 volatile Int64U CONTROL_TimeCounter = 0;
-Boolean CycleActive = false;
+volatile Boolean CycleActive = false;
 volatile DeviceState CONTROL_State = DS_None;
 Int64U CONTROL_OuputCheckDelayCounter = 0;
 

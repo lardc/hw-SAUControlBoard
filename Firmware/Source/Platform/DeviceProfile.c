@@ -66,7 +66,7 @@ static void DEVPROFILE_FillWRPartDefault();
 
 // Functions
 //
-void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, volatile Boolean* MaskChanges, Int16U NodeID)
+void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, volatile Boolean* MaskChanges, Int16U NodeID) // NodeID сейчас не используется, добавлен для унификации с Bootloader
 {
 	(void)NodeID;
 
