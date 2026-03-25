@@ -21,7 +21,7 @@
 
 // Variables
 volatile Int64U CONTROL_TimeCounter = 0;
-Boolean CycleActive = false;
+volatile Boolean CycleActive = false;
 volatile DeviceState CONTROL_State = DS_None;
 Int64U CONTROL_OuputCheckDelayCounter = 0;
 
@@ -43,7 +43,7 @@ void CONTROL_Init()
 	DT_SaveFirmwareInfo(CAN_SLAVE_NID, CAN_MASTER_NID);
 	
 	// Device profile initialization
-	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive);
+	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive, CAN_SLAVE_NID);
 	DEVPROFILE_ResetControlSection();
 	DataTable[REG_MME_CODE] = MME_CODE;
 }

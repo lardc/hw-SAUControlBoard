@@ -59,8 +59,10 @@ static Boolean DEVPROFILE_CallbackWriteX(Int16U Endpoint, pInt16U Buffer, Boolea
 
 // Functions
 //
-void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, volatile Boolean *MaskChanges)
+void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, volatile Boolean *MaskChanges, Int16U NodeID)
 {
+	(void)NodeID;
+
 	// Save values
 	ControllerDispatchFunction = SpecializedDispatch;
 	MaskChangesFlag = MaskChanges;

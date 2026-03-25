@@ -55,7 +55,7 @@ static xCCI_ServiceConfig X_ServiceConfig;
 static EPStates DummyEPState;
 static xCCI_FUNC_CallbackAction ControllerDispatchFunction;
 //
-static Boolean* MaskChangesFlag;
+static volatile Boolean* MaskChangesFlag;
 
 // Forward functions
 //
@@ -66,8 +66,10 @@ static void DEVPROFILE_FillWRPartDefault();
 
 // Functions
 //
-void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, Boolean* MaskChanges)
+void DEVPROFILE_Init(xCCI_FUNC_CallbackAction SpecializedDispatch, volatile Boolean* MaskChanges, Int16U NodeID) // NodeID сейчас не используется, добавлен для унификации с Bootloader
 {
+	(void)NodeID;
+
 	// Save values
 	ControllerDispatchFunction = SpecializedDispatch;
 	MaskChangesFlag = MaskChanges;
