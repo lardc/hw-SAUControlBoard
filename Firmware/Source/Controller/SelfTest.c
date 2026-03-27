@@ -1,4 +1,4 @@
-﻿// Header
+// Header
 //
 #include "SelfTest.h"
 
@@ -89,10 +89,18 @@ void SELFTEST_Process()
 				break;
 
 			case STS_Finish:
-				DataTable[REG_SELF_TEST_OP_RESULT] = OPRESULT_OK;
-				SELFTTEST_SetStage(STS_None);
-				LL_StatusLamp(Green);
-				CONTROL_SetDeviceState(DS_None);
+				if(LL_ReadSafetyLine(LID_Out1) && LL_ReadSafetyLine(LID_Out2))
+				{
+					DataTable[REG_SELF_TEST_OP_RESULT] = OPRESULT_OK;
+					SELFTTEST_SetStage(STS_None);
+					LL_StatusLamp(Green);
+					CONTROL_SetDeviceState(DS_None);
+				}
+				else
+				{
+					CONTROL_SwitchToFault(DF_SELF_TEST);
+					SELFTTEST_SetStage(STS_None);
+				}
 				break;
 		}
 
@@ -131,11 +139,17 @@ void SELFTEST_StageProcess(DeviceSelfTestStage Stage)
 	if(LL_ReadSafetyLine(LID_Out1) && LL_ReadSafetyLine(LID_Out2))
 	{
 		if(LL_MEASURE_OutputVoltage(ADC1_OUTPUT1) >= OUTPUT_THRESHOLD_VOLTAGE)
+		{
 			CONTROL_SwitchToFault(DF_SHORT_OUTPUT1);
+			SELFTTEST_SetStage(STS_None);
+		}
 		else
 		{
 			if(LL_MEASURE_OutputVoltage(ADC1_OUTPUT2) >= OUTPUT_THRESHOLD_VOLTAGE)
+			{
 				CONTROL_SwitchToFault(DF_SHORT_OUTPUT2);
+				SELFTTEST_SetStage(STS_None);
+			}
 			else
 			{
 				DelayCounter = CONTROL_TimeCounter + TIME_STAGE_DELAY;
