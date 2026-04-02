@@ -1,4 +1,4 @@
-﻿// ----------------------------------------
+// ----------------------------------------
 // Controller logic
 // ----------------------------------------
 
@@ -85,10 +85,14 @@ Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U UserError)
 			break;
 
 		case ACT_START_SELF_TEST:
-			if(CONTROL_State != DS_Fault)
+			if(CONTROL_State == DS_None || CONTROL_State == DS_Enabled)
 			{
 				CONTROL_SetDeviceState(DS_InSelfTest);
 				SELFTTEST_SetStage(STS_None);
+				DataTable[REG_SELF_TEST_OP_RESULT] = OPRESULT_NONE;
+				DataTable[REG_SELF_TEST_STAGE] = STS_None;
+				DataTable[REG_FAULT_REASON] = DF_NONE;
+				CONTROL_OuputCheckDelayCounter = CONTROL_TimeCounter + OUTPUT_CHECK_DELAY;
 			}
 			else
 				*UserError = ERR_OPERATION_BLOCKED;
@@ -203,11 +207,14 @@ void CONTROL_Indication()
 
 void CONTROL_SwitchToFault(Int16U Reason)
 {
+	if((Reason == DF_SELF_TEST) ||
+		((Reason == DF_SHORT_OUTPUT1 || Reason == DF_SHORT_OUTPUT2) && CONTROL_State == DS_InSelfTest))
+	{
+		DataTable[REG_SELF_TEST_OP_RESULT] = OPRESULT_FAIL;
+	}
+
 	CONTROL_SetDeviceState(DS_Fault);
 	DataTable[REG_FAULT_REASON] = Reason;
-
-	if(Reason == DF_SELF_TEST)
-		DataTable[REG_SELF_TEST_OP_RESULT] = OPRESULT_FAIL;
 }
 //------------------------------------------
 
