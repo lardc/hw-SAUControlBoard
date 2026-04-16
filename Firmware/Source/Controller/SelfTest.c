@@ -13,7 +13,7 @@
 // Definition
 //
 #define TIME_STAGE_DELAY			500		// мс
-#define TIME_STAGE_CHECK_DELAY		100		// мс
+#define TIME_STAGE_CHECK_DELAY		300		// мс
 
 // Variables
 //
@@ -135,7 +135,7 @@ bool SELFTEST_IsOuputsCorrect(DeviceSelfTestStage Stage)
 //------------------------------------------
 
 void SELFTEST_StageProcess(DeviceSelfTestStage Stage)
-{
+																																																																																																																																																					{
 	if(LL_ReadSafetyLine(LID_Out1) && LL_ReadSafetyLine(LID_Out2))
 	{
 		if(LL_MEASURE_OutputVoltage(ADC1_OUTPUT1) >= OUTPUT_THRESHOLD_VOLTAGE)
