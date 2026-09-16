@@ -95,6 +95,7 @@ void SELFTEST_Process()
 					SELFTTEST_SetStage(STS_None);
 					LL_StatusLamp(Green);
 					CONTROL_SetDeviceState(DS_None);
+					DataTable[REG_SELF_TEST_STAGE] = STS_None;
 				}
 				else
 				{
